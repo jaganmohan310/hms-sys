@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseSquare | Healthcare Management System & Online Doctor Consultation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            color: #2c3e50;
+            line-height: 1.6;
+            background-color: #f8fafc;
+        }
+        /* Header & Navigation */
+        header {
+            background-color: #ffffff;
+            color: #2c3e50;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        header .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0284c7;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        header .logo span {
+            color: #0f172a;
+        }
+        nav a {
+            color: #475569;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #0284c7;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            text-align: center;
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            color: #0f172a;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: #475569;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Search Bar Widget */
+        .search-widget {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 12px;
+            max-width: 850px;
+            margin: 0 auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .search-widget input, .search-widget select {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+        .search-widget button {
+            background: #0284c7;
+            color: #fff;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .search-widget button:hover {
+            background: #0369a1;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 70px 5%;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+        .section-title h2 {
+            font-size: 2.1rem;
+            color: #0f172a;
+        }
+        .section-title p {
+            color: #64748b;
+            margin-top: 8px;
+        }
+
+        /* Health Concerns Grid */
+        .concerns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .concern-card {
+            background: #ffffff;
+            padding: 24px 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .concern-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+        }
+        .concern-icon {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+        .concern-card h3 {
+            font-size: 1.1rem;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+        .concern-card p {
+            font-size: 0.88rem;
+            color: #64748b;
+        }
+
+        /* HMS Platform Highlights */
+        .hms-features {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .hms-card {
+            border-left: 4px solid #0284c7;
+            padding-left: 20px;
+        }
+        .hms-card h3 {
+            color: #0f172a;
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+        .hms-card p {
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 25px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            🩺 PulseSquare 
+        </div>
+        <nav>
+            <a href="#find-hospitals">Hospitals & Clinics</a>
+            <a href="#consultations">Online Consultations</a>
+            <a href="#hms-solutions">Hospital Management System</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Healthcare Management & Online Consultation Platform</h1>
+        <p>Connecting patients with top multi-specialty and super-specialty corporate hospitals, experienced doctors, and instant video consultations—powered by modern digital health technology.</p>
+        
+        <!-- Hospital & Doctor Search Widget -->
+        <div class="search-widget" id="find-hospitals">
+            <input type="text" placeholder="Select Area / Location (e.g., Jubilee Hills, HSR Layout)">
+            <select>
+                <option value="">All Hospital Types</option>
+                <option value="super-specialty">Super-Specialty Hospital</option>
+                <option value="multi-specialty">Multi-Specialty Hospital</option>
+                <option value="corporate">Corporate Hospital</option>
+                <option value="clinic">Specialization Clinic</option>
+            </select>
+            <button type="button">Search Hospitals</button>
+        </div>
+    </section>
+
+    <!-- Online Video Consultation by Health Concern -->
+    <section id="consultations">
+        <div class="section-title">
+            <h2>Consult Top Doctors Online for Any Health Concern</h2>
+            <p>Private and confidential video consultations with verified specialists within minutes</p>
+        </div>
+
+        <div class="concerns-grid">
+            <div class="concern-card">
+                <div class="concern-icon">🩸</div>
+                <h3>Period Doubts & PCOD</h3>
+                <p>Irregular cycles, cramps, PCOS/PCOD, and hormonal issues</p>
+            </div>
+            <div class="concern-card">
+                <div class="concern-icon">🤰</div>
+                <h3>Pregnancy & Gynec</h3>
+                <p>Maternity care, family planning, and women's wellness</p>
+            </div>
+            <div class="concern-card">
+                <div class="concern-icon">✨</div>
+                <h3>Skin, Acne & Pimples</h3>
+                <p>Dermatology consultation for acne, scars, and skin allergies</p>
+            </div>
+            <div class="concern-card">
+                <div class="concern-icon">🔒</div>
+                <h3>Performance & Sexual Health</h3>
+                <p>Confidential advice for intimate & performance concerns in bed</p>
+            </div>
+            <div class="concern-card">
+                <div class="concern-icon">🤒</div>
+                <h3>Cold, Cough & Fever</h3>
+                <p>General physician advice for flu, seasonal fever, and infections</p>
+            </div>
+            <div class="concern-card">
+                <div class="concern-icon">👶</div>
+                <h3>Pediatrics & Child Care</h3>
+                <p>Expert care when your child is not feeling well or needs vaccination</p>
+            </div>
+            <div class="concern-card">
+                <div class="concern-icon">🧠</div>
+                <h3>Depression & Anxiety</h3>
+                <p>Mental health support, counseling, and stress management</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HMS Technology Solutions for Hospitals -->
+    <section id="hms-solutions" style="background: #e2e8f0;">
+        <div class="section-title">
+            <h2>PulseSquare HMS Technology for Hospitals & Practices</h2>
+            <p>Smart healthcare software built to transform hospital operations and patient engagement</p>
+        </div>
+
+        <div class="hms-features">
+            <div class="hms-card">
+                <h3>Grow Your Clinical Practice</h3>
+                <p>Boost hospital visibility area-wise, streamline appointments, and reach more patients in need of specialized treatment.</p>
+            </div>
+            <div class="hms-card">
+                <h3>Enhance Patient Visit Experience</h3>
+                <p>Reduce waiting times with digital token management, online booking, and instant digital medical prescriptions.</p>
+            </div>
+            <div class="hms-card">
+                <h3>Complete Transparency</h3>
+                <p>Build trust through clear billing, transparent treatment records, and seamless doctor-patient communication.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 PulseSquare  — Healthcare Management Systems & Digital Health Platform. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
