@@ -7,29 +7,78 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.18</version>
+        <relativePath/>
     </parent>
 
-    <groupId>com.example</groupId>
-    <artifactId>spring-boot-2-hello-world</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <groupId>com.pulsesquare.hms</groupId>
+    <artifactId>pulsesquare-hms</artifactId>
+    <version>1.0.0</version>
 
-    <name>spring-boot-2-hello-world</name>
-    <description>A simple Spring Boot 2.x app to send hello world message to a user</description>
+    <name>PulseSquare Enterprise HMS</name>
+    <description>Enterprise Healthcare Management System with IBM Db2 and AngularJS</description>
 
     <properties>
         <java.version>1.8</java.version>
+        <db2.jcc.version>11.5.8.0</db2.jcc.version>
+        <angularjs.version>1.8.2</angularjs.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
+        <!-- Spring Boot Web & MVC -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- Spring Boot JPA & Hibernate -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Bean Validation (JSR-380) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Actuator for Production Health & Metrics -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Spring Security Crypto for Enterprise BCrypt Hashing -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+
+        <!-- IBM Db2 Official JDBC JCC Driver -->
+        <dependency>
+            <groupId>com.ibm.db2</groupId>
+            <artifactId>jcc</artifactId>
+            <version>${db2.jcc.version}</version>
+        </dependency>
+
+        <!-- Frontend WebJars: Official AngularJS -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>angularjs</artifactId>
+            <version>${angularjs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+
+        <!-- In-memory fallback & Test Database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <!-- Testing Suite -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
