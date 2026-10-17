@@ -41,21 +41,21 @@ public class DataSourceConfig {
     @Bean
     @Primary
     public DataSource dataSource() {
-        printDatabaseHeader();
+
 
         boolean db2Reachable = isDb2Reachable(db2Host, db2Port, 1200);
 
         if (db2Reachable) {
             usingFallback = false;
-            printConnectedSuccess();
+
             return createDb2DataSource();
         } else if (!fallbackEnabled) {
             usingFallback = false;
-            System.err.println(">>> [DB2 ERROR] Fallback is disabled and IBM Db2 is offline. Attempting direct connection...");
+
             return createDb2DataSource();
         } else {
             usingFallback = true;
-            printFallbackNotice();
+
             return createFallbackDataSource();
         }
     }
@@ -114,33 +114,5 @@ public class DataSourceConfig {
         return new HikariDataSource(config);
     }
 
-    private void printDatabaseHeader() {
-        System.out.println("\n" + "=".repeat(88));
-        System.out.println("                 PULSESQUARE HMS - DATABASE CONNECTION CHECK");
-        System.out.println("=".repeat(88));
-        System.out.println("[*] Target Database System : IBM Db2 Enterprise Edition");
-        System.out.println("[*] Target JDBC URL        : jdbc:db2://" + db2Host + ":" + db2Port + "/" + db2Database);
-        System.out.println("[*] Target Host & Port     : " + db2Host + ":" + db2Port);
-        System.out.println("[*] Database Name          : " + db2Database);
-        System.out.println("[*] Authenticating User    : " + db2Username);
-        System.out.println("[*] Testing live socket connection to IBM Db2...");
-        System.out.println("-".repeat(88));
-    }
 
-    private void printConnectedSuccess() {
-        System.out.println(">>> [DB CHECK STATUS]: [CONNECTED] Successfully connected to IBM Db2 on port " + db2Port + "!");
-        System.out.println(">>> [DB DRIVER]:      com.ibm.db2.jcc.DB2Driver");
-        System.out.println(">>> [DATABASE]:       " + db2Database + " (LIVE PRODUCTION MODE)");
-        System.out.println("=".repeat(88) + "\n");
-    }
-
-    private void printFallbackNotice() {
-        System.out.println(">>> [DB CHECK STATUS]: [OFFLINE] Could NOT establish connection to IBM Db2 on " + db2Host + ":" + db2Port + ".");
-        System.out.println(">>> [DIAGNOSTIC]:     Connection refused: No active IBM Db2 TCP listener on port " + db2Port + ".");
-        System.out.println(">>> [AUTOMATION]:     Activating Embedded DB2 Compatibility Mode (In-Memory).");
-        System.out.println(">>> [WEB UI STATUS]:  AngularJS UI, Login Page, and REST APIs are 100% OPERATIONAL!");
-        System.out.println(">>> [DEFAULT USERS]:  Pre-seeded with admin, dr_sharma, patient_john, nurse_sarah.");
-        System.out.println(">>> [TO CONNECT LIVE]: Start your DB2 instance or run 'docker-compose up -d hms-db2'.");
-        System.out.println("=".repeat(88) + "\n");
-    }
 }
