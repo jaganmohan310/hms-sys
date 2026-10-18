@@ -3,570 +3,577 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication | PulseSquare Healthcare Management System</title>
-    <!-- Local Official AngularJS & Dependencies -->
-    <script src="/js/angular.min.js"></script>
-    <script src="/js/angular-animate.min.js"></script>
-    <script src="/js/angular-messages.min.js"></script>
+    <title>Hospital Management System | HealthB4U.com</title>
+    <!-- Local AngularJS -->
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    <script src="js/angular-messages.min.js"></script>
     <style>
-        :root {
-            --primary: #0284c7;
-            --primary-hover: #0369a1;
-            --secondary: #0f172a;
-            --surface: #ffffff;
-            --background: #f1f5f9;
-            --border: #cbd5e1;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --danger: #ef4444;
-            --success: #10b981;
-        }
-
-        /* Prevent template flicker */
-        [ng-cloak], .ng-cloak {
-            display: none !important;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #e0f2fe 0%, #f8fafc 50%, #e2e8f0 100%);
-            min-height: 100vh;
+            background-color: #f7f9fb;
+            color: #333333;
+        }
+
+        /* Top Header */
+        .header-container {
+            width: 100%;
+            background: #ffffff;
+            border-bottom: 1px solid #dcdcdc;
+            padding: 16px 40px;
+        }
+
+        .header-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title-box h1 {
+            color: #1a3c68;
+            font-size: 27px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-title-box p {
+            color: #88929e;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .header-logo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-symbol {
+            width: 48px;
+            height: 48px;
+            background: radial-gradient(circle at 35% 35%, #38bdf8 0%, #0284c7 50%, #0369a1 100%);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 24px;
-            color: var(--text-main);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            border: 2px solid #ffffff;
         }
 
-        .auth-wrapper {
-            width: 100%;
-            max-width: 500px;
+        .logo-symbol-inner {
+            color: #ffffff;
+            font-weight: 900;
+            font-size: 26px;
+            font-family: 'Times New Roman', Times, serif;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
         }
 
-        .brand-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .brand-logo {
-            font-size: 2.1rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .brand-logo span {
-            color: var(--secondary);
-        }
-
-        .brand-subtitle {
-            margin-top: 4px;
-            color: var(--text-muted);
-            font-size: 0.92rem;
-        }
-
-        .auth-card {
-            background: var(--surface);
-            border-radius: 16px;
-            padding: 32px 30px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-            border: 1px solid rgba(203, 213, 225, 0.6);
-        }
-
-        /* Mode Switcher Tabs */
-        .tab-switcher {
+        .logo-text-group {
             display: flex;
-            background: #f1f5f9;
-            border-radius: 10px;
-            padding: 4px;
-            margin-bottom: 24px;
-            border: 1px solid #e2e8f0;
+            flex-direction: column;
         }
 
-        .tab-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: transparent;
-            font-size: 0.92rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s ease;
+        .logo-brand {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            line-height: 1;
         }
 
-        .tab-btn.active {
-            background: var(--surface);
-            color: var(--primary);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        .logo-brand .part1 {
+            color: #0369a1;
+            font-style: italic;
         }
 
-        .card-heading {
-            margin-bottom: 20px;
+        .logo-brand .part2 {
+            color: #0284c7;
         }
 
-        .card-heading h2 {
-            font-size: 1.45rem;
+        .logo-brand .part3 {
+            color: #475569;
+            font-size: 14px;
+            font-style: normal;
             font-weight: 700;
-            color: var(--secondary);
         }
 
-        .card-heading p {
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            margin-top: 4px;
+        .logo-tagline {
+            color: #475569;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            margin-top: 3px;
         }
 
+        /* Top Navigation Bar */
+        .navbar-bar {
+            width: 100%;
+            background: linear-gradient(to bottom, #11436e 0%, #092c4c 100%);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
 
-        .alert {
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 0.88rem;
-            margin-bottom: 20px;
-            line-height: 1.4;
+        .navbar-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 10px;
+        }
+
+        .navbar-inner a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 500;
+            padding: 12px 24px;
+            display: block;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+            transition: background 0.2s;
+        }
+
+        .navbar-inner a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Content Body */
+        .main-container {
+            max-width: 1080px;
+            margin: 40px auto;
+            padding: 0 20px;
+            min-height: 400px;
+        }
+
+        .content-layout {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        /* Left Column: Product Showcase */
+        .product-showcase {
+            flex: 1.3;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 25px;
+            padding-top: 20px;
         }
 
-        .alert-error {
-            background-color: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
+        .product-box-wrapper {
+            flex-shrink: 0;
+            width: 170px;
+            filter: drop-shadow(8px 12px 14px rgba(0, 0, 0, 0.25));
         }
 
-        .alert-success {
-            background-color: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
+        .product-text-box h2 {
+            font-size: 19px;
+            color: #475569;
+            font-weight: 700;
+            margin-bottom: 12px;
         }
 
-        .form-group {
+        .product-text-box p {
+            color: #64748b;
+            font-size: 13.5px;
+            line-height: 1.65;
+            text-align: justify;
+        }
+
+        /* Right Column: Login Panel */
+        .login-panel-box {
+            flex: 1;
+            max-width: 400px;
+            margin-left: 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .login-panel-header {
+            background: linear-gradient(to bottom, #8fa3b5 0%, #687e93 100%);
+            padding: 10px 16px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border: 1px solid #576d80;
+            border-bottom: none;
+        }
+
+        .login-panel-header h3 {
+            color: #1a2f42;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+        }
+
+        .login-panel-body {
+            background: linear-gradient(to bottom, #cedbe7 0%, #bcccd9 100%);
+            padding: 24px 22px;
+            border: 1px solid #9fb3c4;
+            border-top: none;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        /* Form Table Layout */
+        .login-table {
+            width: 100%;
             margin-bottom: 18px;
         }
 
-        .form-label {
-            display: block;
-            font-size: 0.86rem;
-            font-weight: 600;
-            color: #334155;
-            margin-bottom: 6px;
+        .login-table td {
+            padding: 7px 0;
+            vertical-align: middle;
         }
 
-        .input-group {
-            position: relative;
-            display: flex;
-            align-items: center;
+        .login-table .label-col {
+            width: 110px;
+            color: #2c3e50;
+            font-size: 14px;
+            font-weight: bold;
         }
 
-        .input-group input, .input-group select {
-            width: 100%;
-            padding: 11px 14px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.92rem;
-            color: var(--text-main);
-            outline: none;
-            transition: all 0.2s ease;
-        }
-
-        .input-group input:focus, .input-group select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
-        }
-
-        .input-icon-btn {
-            position: absolute;
-            right: 12px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 0.82rem;
-            font-weight: 600;
-            user-select: none;
-        }
-
-        /* Role Selection Cards */
-        .role-selector-title {
-            font-size: 0.86rem;
-            font-weight: 600;
-            color: #334155;
-            margin-bottom: 8px;
-        }
-
-        .role-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .role-card {
-            border: 2px solid #e2e8f0;
-            background: #f8fafc;
-            border-radius: 10px;
-            padding: 12px 14px;
-            cursor: pointer;
+        .login-table .colon-col {
+            width: 16px;
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 14px;
             text-align: left;
-            transition: all 0.2s ease;
-            position: relative;
         }
 
-        .role-card:hover {
-            border-color: #93c5fd;
-            background: #f0f9ff;
+        .login-table .input-col {
+            width: auto;
         }
 
-        .role-card.selected {
-            border-color: var(--primary);
-            background: #e0f2fe;
+        .login-input {
+            width: 100%;
+            padding: 5px 8px;
+            font-size: 13.5px;
+            color: #1e293b;
+            background: #ffffff;
+            border: 1px solid #718096;
+            border-radius: 2px;
+            outline: none;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.15);
         }
 
-        .role-icon {
-            font-size: 1.3rem;
-            margin-bottom: 4px;
+        .login-input:focus {
+            border-color: #0284c7;
+            background: #fffff8;
         }
 
-        .role-name {
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--secondary);
-            display: block;
-        }
-
-        .role-desc {
-            font-size: 0.74rem;
-            color: var(--text-muted);
-            display: block;
-            margin-top: 2px;
-        }
-
-        .form-options {
+        /* Buttons Row */
+        .buttons-row {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            font-size: 0.85rem;
+            justify-content: flex-end;
+            gap: 12px;
+            padding-right: 4px;
+            margin-top: 10px;
         }
 
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-muted);
+        .btn-metallic {
+            background: linear-gradient(to bottom, #f5f5f5 0%, #d8d8d8 48%, #b0b0b0 52%, #c8c8c8 100%);
+            border: 1px solid #4a5568;
+            border-radius: 4px;
+            padding: 5px 22px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #1a202c;
             cursor: pointer;
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.35);
+            transition: all 0.15s ease;
         }
 
-        .forgot-link {
-            color: var(--primary);
+        .btn-metallic:hover:not(:disabled) {
+            background: linear-gradient(to bottom, #ffffff 0%, #e6e6e6 48%, #c2c2c2 52%, #d6d6d6 100%);
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+        }
+
+        .btn-metallic:active:not(:disabled) {
+            background: linear-gradient(to bottom, #b0b0b0 0%, #c8c8c8 100%);
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.4);
+        }
+
+        .btn-metallic:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .forgot-link-box {
+            margin-top: 18px;
+            text-align: right;
+            padding-right: 4px;
+        }
+
+        .forgot-link-box a {
+            color: #1a3c68;
+            font-size: 13px;
             text-decoration: none;
             font-weight: 500;
         }
 
-        .forgot-link:hover {
+        .forgot-link-box a:hover {
             text-decoration: underline;
         }
 
-        .btn-submit {
-            width: 100%;
-            padding: 13px;
-            background-color: var(--primary);
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.98rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
+        /* Alert notifications */
+        .msg-alert {
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12.5px;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        .msg-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+            display: block;
+        }
+
+        .msg-success {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #4ade80;
+            display: block;
+        }
+
+        /* Footer */
+        .footer-separator {
+            max-width: 1080px;
+            margin: 40px auto 0 auto;
+            border-top: 1px solid #dcdcdc;
+            padding: 16px 20px 30px 20px;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .support-info .support-label {
+            color: #ea580c;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .support-info .support-phone {
+            color: #718096;
+            font-size: 12.5px;
+            margin-top: 3px;
+        }
+
+        .copyright-text {
+            color: #718096;
+        }
+
+        .powered-by-box {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 8px;
         }
 
-        .btn-submit:hover:not(:disabled) {
-            background-color: var(--primary-hover);
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .spinner {
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
+        .mini-emblem {
+            width: 22px;
+            height: 22px;
+            background: radial-gradient(circle at 35% 35%, #38bdf8 0%, #0284c7 100%);
             border-radius: 50%;
-            border-top-color: #ffffff;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .switch-footer {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 0.88rem;
-            color: var(--text-muted);
-        }
-
-        .switch-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            margin-left: 4px;
-        }
-
-        .switch-footer a:hover {
-            text-decoration: underline;
-        }
-
-        .back-home {
-            margin-top: 22px;
-            text-align: center;
-            font-size: 0.86rem;
-        }
-
-        .back-home a {
-            color: var(--text-muted);
-            text-decoration: none;
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 6px;
-            transition: color 0.2s;
-        }
-
-        .back-home a:hover {
-            color: var(--primary);
+            justify-content: center;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 12px;
         }
     </style>
 </head>
 <body ng-controller="LoginController">
 
-    <div class="auth-wrapper">
-        <div class="brand-header">
-            <a href="/" class="brand-logo">
-                🩺 PulseSquare <span>HMS</span>
-            </a>
-            <p class="brand-subtitle">Enterprise Healthcare Management System</p>
+    <!-- Top Header -->
+    <header class="header-container">
+        <div class="header-inner">
+            <div class="header-title-box">
+                <h1>Hospital Management System</h1>
+                <p>A Complete Hospital Software</p>
+            </div>
+            <div class="header-logo-box">
+                <div class="logo-symbol">
+                    <span class="logo-symbol-inner">H</span>
+                </div>
+                <div class="logo-text-group">
+                    <div class="logo-brand">
+                        <span class="part1">Health</span><span class="part2">B4U</span><span class="part3">.COM</span>
+                    </div>
+                    <span class="logo-tagline">Expanding Healthcare Services</span>
+                </div>
+            </div>
         </div>
+    </header>
 
-        <div class="auth-card">
-            <!-- Mode Switcher: Sign In or Sign Up -->
-            <div class="tab-switcher">
-                <button type="button" 
-                        class="tab-btn" 
-                        ng-class="{'active': activeView === 'login'}" 
-                        ng-click="setView('login')">
-                    🔑 Sign In
-                </button>
-                <button type="button" 
-                        class="tab-btn" 
-                        ng-class="{'active': activeView === 'signup'}" 
-                        ng-click="setView('signup')">
-                    📝 Sign Up / Register
-                </button>
-            </div>
-
-            <!-- Heading -->
-            <div class="card-heading">
-                <h2 ng-bind="activeView === 'login' ? 'Sign In to Your Account' : 'Create New HMS Account'">
-                    Sign In to Your Account
-                </h2>
-                <p ng-bind="activeView === 'login' ? 'Enter your credentials to access the hospital management portal' : 'Choose your healthcare role and complete registration'">
-                    Enter your credentials to access the hospital management portal
-                </p>
-
-            </div>
-
-            <!-- Error Banner (Hidden by default) -->
-            <div class="alert alert-error" ng-show="errorMessage" style="display: none;" ng-cloak>
-                <span>⚠️</span>
-                <span ng-bind="errorMessage"></span>
-            </div>
-
-            <!-- Success Banner (Hidden by default) -->
-            <div class="alert alert-success" ng-show="successMessage" style="display: none;" ng-cloak>
-                <span>✅</span>
-                <span ng-bind="successMessage"></span>
-            </div>
-
-            <!-- ============================================================ -->
-            <!-- 1. SIGN IN FORM -->
-            <!-- ============================================================ -->
-            <form name="loginForm" ng-submit="submitLogin(loginForm.$valid)" ng-show="activeView === 'login'" novalidate>
-                <div class="form-group">
-                    <label class="form-label" for="login-username">Username or ID</label>
-                    <div class="input-group">
-                        <input type="text"
-                               id="login-username"
-                               name="username"
-                               ng-model="loginData.username"
-                               placeholder="e.g. admin, dr_sharma, patient_john"
-                               required
-                               autocomplete="username">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="login-password">Password</label>
-                    <div class="input-group">
-                        <input type="{{ showPassword ? 'text' : 'password' }}"
-                               id="login-password"
-                               name="password"
-                               ng-model="loginData.password"
-                               placeholder="••••••••"
-                               required
-                               autocomplete="current-password">
-                        <button type="button" class="input-icon-btn" ng-click="togglePasswordVisibility()" ng-bind="showPassword ? 'Hide' : 'Show'">
-                            Show
-                        </button>
-                    </div>
-                </div>
-
-                <div class="form-options">
-                    <label class="checkbox-label">
-                        <input type="checkbox" ng-model="loginData.rememberMe">
-                        <span>Remember me</span>
-                    </label>
-                    <a href="javascript:void(0)" class="forgot-link" onclick="alert('Please contact your hospital IT administrator to reset your credentials.')">Forgot password?</a>
-                </div>
-
-                <button type="submit" class="btn-submit" ng-disabled="isLoading || loginForm.$invalid">
-                    <span class="spinner" ng-show="isLoading" style="display: none;"></span>
-                    <span ng-bind="isLoading ? 'Authenticating...' : 'Sign In with DB2'">Sign In</span>
-                </button>
-
-                <div class="switch-footer">
-                    <span>Don't have an account?</span>
-                    <a href="javascript:void(0)" ng-click="setView('signup')">Sign Up here</a>
-                </div>
-            </form>
-
-            <!-- ============================================================ -->
-            <!-- 2. SIGN UP FORM (Asks Role: Patient, Doctor, Admin, Staff) -->
-            <!-- ============================================================ -->
-            <form name="signupForm" ng-submit="submitSignup(signupForm.$valid)" ng-show="activeView === 'signup'" novalidate>
-                <!-- Role Selection -->
-                <div class="role-selector-title">1. Select Your Role:</div>
-                <div class="role-grid">
-                    <div class="role-card" 
-                         ng-class="{'selected': signupData.role === 'PATIENT'}" 
-                         ng-click="selectRole('PATIENT')">
-                        <div class="role-icon">🧑‍🦱</div>
-                        <span class="role-name">Patient</span>
-                        <span class="role-desc">Appointments & Care</span>
-                    </div>
-
-                    <div class="role-card" 
-                         ng-class="{'selected': signupData.role === 'DOCTOR'}" 
-                         ng-click="selectRole('DOCTOR')">
-                        <div class="role-icon">👨‍⚕️</div>
-                        <span class="role-name">Doctor</span>
-                        <span class="role-desc">Clinical & Diagnosis</span>
-                    </div>
-
-                    <div class="role-card" 
-                         ng-class="{'selected': signupData.role === 'ADMIN'}" 
-                         ng-click="selectRole('ADMIN')">
-                        <div class="role-icon">🛡️</div>
-                        <span class="role-name">Admin</span>
-                        <span class="role-desc">System Operations</span>
-                    </div>
-
-                    <div class="role-card" 
-                         ng-class="{'selected': signupData.role === 'STAFF'}" 
-                         ng-click="selectRole('STAFF')">
-                        <div class="role-icon">🩺</div>
-                        <span class="role-name">Nurse / Staff</span>
-                        <span class="role-desc">Ward & Nursing Care</span>
-                    </div>
-                </div>
-
-                <div class="role-selector-title">2. Account Details:</div>
-                <div class="form-group">
-                    <label class="form-label" for="reg-fullname">Full Name</label>
-                    <div class="input-group">
-                        <input type="text"
-                               id="reg-fullname"
-                               name="fullName"
-                               ng-model="signupData.fullName"
-                               placeholder="e.g. Dr. Rajesh Sharma, John Doe"
-                               required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="reg-email">Email Address</label>
-                    <div class="input-group">
-                        <input type="email"
-                               id="reg-email"
-                               name="email"
-                               ng-model="signupData.email"
-                               placeholder="name@pulsesquare.com"
-                               required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="reg-username">Desired Username</label>
-                    <div class="input-group">
-                        <input type="text"
-                               id="reg-username"
-                               name="username"
-                               ng-model="signupData.username"
-                               placeholder="e.g. dr_rajesh, patient_99"
-                               required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="reg-password">Password</label>
-                    <div class="input-group">
-                        <input type="{{ showPassword ? 'text' : 'password' }}"
-                               id="reg-password"
-                               name="password"
-                               ng-model="signupData.password"
-                               placeholder="Minimum 6 characters"
-                               required>
-                        <button type="button" class="input-icon-btn" ng-click="togglePasswordVisibility()" ng-bind="showPassword ? 'Hide' : 'Show'">
-                            Show
-                        </button>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-submit" ng-disabled="isLoading || signupForm.$invalid">
-                    <span class="spinner" ng-show="isLoading" style="display: none;"></span>
-                    <span>Register as <span ng-bind="signupData.role">PATIENT</span></span>
-                </button>
-
-                <div class="switch-footer">
-                    <span>Already have an account?</span>
-                    <a href="javascript:void(0)" ng-click="setView('login')">Sign In here</a>
-                </div>
-            </form>
+    <!-- Navigation Bar -->
+    <nav class="navbar-bar">
+        <div class="navbar-inner">
+            <a href="#">About Company</a>
+            <a href="#">Services</a>
+            <a href="#">Career</a>
+            <a href="#">Testimonials</a>
+            <a href="#">Contact Us</a>
         </div>
+    </nav>
 
-        <div class="back-home">
-            <a href="/">← Return to Hospital Homepage</a>
+    <!-- Main Content Area -->
+    <main class="main-container">
+        <div class="content-layout">
+
+            <!-- Left: Product Box & Description -->
+            <div class="product-showcase">
+                <!-- 3D Software Box SVG Mockup -->
+                <div class="product-box-wrapper">
+                    <svg viewBox="0 0 240 320" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Drop Shadow -->
+                        <polygon points="50,290 85,310 215,260 180,245" fill="rgba(0,0,0,0.18)" />
+                        <!-- Left Spine (Dark Blue 3D Perspective) -->
+                        <polygon points="45,45 85,25 85,280 45,260" fill="#1e3a5f" stroke="#132742" stroke-width="1"/>
+                        <polygon points="45,45 85,25 85,60 45,75" fill="#2d527c" />
+                        <text x="-190" y="68" transform="rotate(-90)" fill="#ffffff" font-size="11" font-weight="bold" font-family="Arial" letter-spacing="1">HealthB4U.com HMS</text>
+                        <!-- Top Lid (Perspective) -->
+                        <polygon points="45,45 85,25 205,38 175,60" fill="#ffffff" stroke="#c0d0e0" stroke-width="1"/>
+                        <!-- Front Face -->
+                        <polygon points="85,25 205,38 205,270 85,280" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+                        <!-- Front Face Gradient Overlay -->
+                        <polygon points="85,120 205,125 205,270 85,280" fill="url(#frontBlueGrad)"/>
+                        
+                        <!-- Top Front Header Text -->
+                        <text x="96" y="58" fill="#0284c7" font-size="14" font-weight="bold" font-style="italic" font-family="Arial">Health<tspan fill="#0f172a">B4U</tspan><tspan font-size="8">.COM</tspan></text>
+                        <text x="96" y="70" fill="#64748b" font-size="6.5" font-family="Arial">Expanding Healthcare Services</text>
+
+                        <!-- Center Circular Emblem on Box -->
+                        <circle cx="145" cy="195" r="22" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+                        <circle cx="145" cy="195" r="18" fill="url(#sphereGrad)" />
+                        <text x="140" y="202" fill="#ffffff" font-size="20" font-weight="bold" font-family="Times New Roman">H</text>
+
+                        <!-- Gradients definition -->
+                        <defs>
+                            <linearGradient id="frontBlueGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#2563eb" stop-opacity="0.85"/>
+                                <stop offset="100%" stop-color="#1e3a8a" stop-opacity="1"/>
+                            </linearGradient>
+                            <radialGradient id="sphereGrad" cx="35%" cy="35%" r="65%">
+                                <stop offset="0%" stop-color="#60a5fa"/>
+                                <stop offset="50%" stop-color="#2563eb"/>
+                                <stop offset="100%" stop-color="#1d4ed8"/>
+                            </radialGradient>
+                        </defs>
+                    </svg>
+                </div>
+
+                <!-- Product Description Text -->
+                <div class="product-text-box">
+                    <h2>Healthb4u - Hospital Management System</h2>
+                    <p>HealthB4U.com is the only Medical Software Company which is owned and run by Medical Professionals and which makes us different from other competitors or the Medical software companies available in the market.</p>
+                </div>
+            </div>
+
+            <!-- Right: Login Box -->
+            <div class="login-panel-box">
+                <div class="login-panel-header">
+                    <h3>Login Page</h3>
+                </div>
+                <div class="login-panel-body">
+
+                    <!-- Alert Notifications -->
+                    <div class="msg-alert msg-error" ng-show="errorMessage" ng-bind="errorMessage"></div>
+                    <div class="msg-alert msg-success" ng-show="successMessage" ng-bind="successMessage"></div>
+
+                    <!-- Login Form -->
+                    <form name="hmsLoginForm" ng-submit="submitLogin(hmsLoginForm.$valid)" novalidate>
+                        <table class="login-table">
+                            <tr>
+                                <td class="label-col">User Name</td>
+                                <td class="colon-col">:</td>
+                                <td class="input-col">
+                                    <input type="text"
+                                           name="username"
+                                           ng-model="loginData.username"
+                                           class="login-input"
+                                           required
+                                           autocomplete="username"
+                                           autofocus>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">Password</td>
+                                <td class="colon-col">:</td>
+                                <td class="input-col">
+                                    <input type="password"
+                                           name="password"
+                                           ng-model="loginData.password"
+                                           class="login-input"
+                                           required
+                                           autocomplete="current-password">
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Action Buttons: Login & Cancel -->
+                        <div class="buttons-row">
+                            <button type="submit" 
+                                    class="btn-metallic" 
+                                    ng-disabled="isLoading">
+                                <span ng-bind="isLoading ? 'Signing In...' : 'Login'">Login</span>
+                            </button>
+                            <button type="button" 
+                                    class="btn-metallic" 
+                                    ng-click="resetForm()">
+                                Cancel
+                            </button>
+                        </div>
+
+                        <!-- Forgot Password Link -->
+                        <div class="forgot-link-box">
+                            <a href="javascript:void(0)" onclick="alert('Please contact your HealthB4U System Administrator to reset your password.')">
+                                Forgot Password ?
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
-    </div>
+    </main>
 
-    <!-- AngularJS Application Scripts -->
-    <script src="/js/app.js"></script>
+    <!-- Footer Area -->
+    <footer class="footer-separator">
+        <div class="footer-inner">
+            <div class="support-info">
+                <div class="support-label">For Customer Support</div>
+                <div class="support-phone">Call : 040 4444 1122</div>
+            </div>
+            <div class="copyright-text">
+                Copyright 2014 HealthB4U all rights Reserved
+            </div>
+            <div class="powered-by-box">
+                <span>Powered by</span>
+                <div class="mini-emblem">H</div>
+                <strong style="color: #0369a1;">HealthB4U</strong>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Application Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/services/auth.service.js"></script>
+    <script src="js/controllers/login.controller.js"></script>
 </body>
 </html>

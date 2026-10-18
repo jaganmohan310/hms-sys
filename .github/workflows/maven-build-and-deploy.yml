@@ -1,0 +1,86 @@
+name: Build & Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # -------------------------------------------------------------
+  # Job 1: Check Maven Build & Tests (mvn clean install)
+  # -------------------------------------------------------------
+  build:
+    name: Check mvn clean install
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run mvn clean install
+        run: mvn clean install --batch-mode
+
+      - name: Upload Packaged Spring Boot JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: pulsesquare-hms-application-jar
+          path: target/*.jar
+          if-no-files-found: ignore
+
+  # -------------------------------------------------------------
+  # Job 2: Deploy Static HMS Web App to GitHub Pages
+  # -------------------------------------------------------------
+  deploy-pages:
+    name: Deploy to GitHub Pages
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      # 1. Deploy to gh-pages branch (supports "Deploy from branch" setting)
+      - name: Deploy to gh-pages Branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: src/main/resources/static
+          branch: gh-pages
+          commit-message: 'Deploy HMS static application to GitHub Pages [skip ci]'
+
+      # 2. Deploy via Official GitHub Actions Pages Artifact (supports "GitHub Actions" setting)
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+        continue-on-error: true
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: src/main/resources/static
+        continue-on-error: true
+
+      - name: Deploy to GitHub Pages (Actions Native)
+        id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
