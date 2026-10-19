@@ -1041,7 +1041,7 @@
             <!-- Top Action Ribbon -->
             <div class="stage-action-ribbon">
                 <!-- Ribbon Title (Dynamic based on module and action) -->
-                <div class="ribbon-title">{{ activeModule === 'Reports' ? (activeAction === 'Application Mgmt' ? 'Application Mgmt Reports' : (activeAction === 'Lab' ? 'Soft Lab Reports' : (activeAction ? (activeAction + ' Reports') : 'Reports'))) : (activeAction === 'User Report Settings' ? 'User Reports Settings' : (activeModule === 'Soft Lab' && activeAction === 'Charges' ? 'Lab ChargeCode Details' : (activeAction || activeModule))) }}</div>
+                <div class="ribbon-title">{{ activeAction ? (activeModule === 'Reports' ? (activeAction === 'Application Mgmt' ? 'Application Mgmt Reports' : (activeAction === 'Lab' ? 'Soft Lab Reports' : (activeAction + ' Reports'))) : (activeAction === 'User Report Settings' ? 'User Reports Settings' : (activeModule === 'Soft Lab' && activeAction === 'Charges' ? 'Lab ChargeCode Details' : activeAction))) : '' }}</div>
 
                 <div class="ribbon-actions-group">
                     <!-- Save -->
@@ -2684,9 +2684,9 @@
             </div>
 
             <!-- =========================================================
-                 APP MGMT VIEW 0: LANDING VIEW (Exact match to screenshot)
+                 LANDING VIEW: CLINICAL WATERMARK FOR ALL MODULES
                  ========================================================= -->
-            <div class="app-mgmt-landing-view" ng-show="activeModule === 'App Mgmt' && (!activeAction || activeAction === '')">
+            <div class="app-mgmt-landing-view" ng-show="!activeAction || activeAction === ''">
                 <img src="images/clinical_watermark.png" alt="Clinical Workstation" class="clinical-watermark-img">
             </div>
 
@@ -6466,7 +6466,7 @@
             <!-- =========================================================
                  REPORTS MODULE
                  ========================================================= -->
-            <div class="form-stage-scroll" ng-show="activeModule === 'Reports'" style="display: flex; gap: 16px; padding: 14px 18px; min-height: calc(100vh - 190px);">
+            <div class="form-stage-scroll" ng-show="activeModule === 'Reports' && activeAction" style="display: flex; gap: 16px; padding: 14px 18px; min-height: calc(100vh - 190px);">
                 
                 <!-- Left Sub-Panel: Radio List of Reports for Active Category -->
                 <div style="width: 320px; flex-shrink: 0; border: 1px solid #7ea8d8; border-radius: 2px; background: #ffffff; padding: 10px 14px; overflow-y: auto; max-height: calc(100vh - 200px); box-shadow: inset 0 1px 1px rgba(0,0,0,0.04);">

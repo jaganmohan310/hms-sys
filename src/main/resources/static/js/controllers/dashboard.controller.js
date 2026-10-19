@@ -104,32 +104,15 @@
                     ]
                 };
 
-                // Default to 'Reports' -> 'Application Mgmt' (or 'Radiology')
-                $scope.activeModule = 'Reports';
-                $scope.subActions = $scope.moduleSubActions['Reports'];
-                $scope.activeAction = 'Application Mgmt'; 
+                // Default to 'App Mgmt' with no active sub-action (shows clinical watermark landing view)
+                $scope.activeModule = 'App Mgmt';
+                $scope.subActions = $scope.moduleSubActions['App Mgmt'];
+                $scope.activeAction = ''; 
 
                 $scope.selectModule = function (mod) {
                     $scope.activeModule = mod;
                     $scope.subActions = $scope.moduleSubActions[mod] || [];
-                    if (mod === 'Soft Lab') {
-                        $scope.activeAction = 'Registration';
-                    } else if (mod === 'App Mgmt') {
-                        $scope.activeAction = 'User Report Settings';
-                    } else if (mod === 'Out Patient') {
-                        $scope.activeAction = 'Procedure Cancellation';
-                    } else if (mod === 'Accounting') {
-                        $scope.activeAction = 'Transactions';
-                    } else if (mod === 'Reports') {
-                        $scope.activeAction = 'Application Mgmt';
-                        if ($scope.loadReportListForCategory) {
-                            $scope.loadReportListForCategory('Application Mgmt');
-                        }
-                    } else if (mod === 'Radiology') {
-                        $scope.activeAction = 'Charges';
-                    } else {
-                        $scope.activeAction = $scope.subActions[0] || '';
-                    }
+                    $scope.activeAction = ''; // Always show clinical watermark landing view until a sub-action is selected
                     $scope.showToast('Switched to ' + mod + ' module');
                 };
 
@@ -2595,10 +2578,10 @@
                 };
 
                 $scope.goHome = function () {
-                    $scope.activeModule = 'Soft Lab';
-                    $scope.subActions = $scope.moduleSubActions['Soft Lab'];
-                    $scope.activeAction = 'Registration';
-                    $scope.showToast('Navigated to Home (Lab Registration)');
+                    $scope.activeModule = 'App Mgmt';
+                    $scope.subActions = $scope.moduleSubActions['App Mgmt'];
+                    $scope.activeAction = '';
+                    $scope.showToast('Navigated to Home (App Mgmt Overview)');
                 };
 
                 $scope.changePassword = function () {
