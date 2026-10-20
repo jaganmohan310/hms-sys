@@ -1,0 +1,13 @@
+get:
+  tags:
+    - System Health & Diagnostics
+  summary: Authentication Service Health Status
+  description: Returns health, uptime, and database operational mode of the authentication subsystem.
+  operationId: getAuthStatus
+  responses:
+    '200':
+      description: Authentication system is healthy.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiResponseStatus.yaml'

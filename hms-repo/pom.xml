@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.pulsesquare.hms</groupId>
+        <artifactId>pulsesquare-hms-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>hms-repo</artifactId>
+    <packaging>jar</packaging>
+
+    <name>PulseSquare HMS - Data &amp; jOOQ Repository Layer (hms-repo)</name>
+    <description>Enterprise Data Access using jOOQ Type-safe SQL, eliminating Hibernate/JPA, with real IBM Db2 database</description>
+
+    <dependencies>
+        <!-- Internal Architecture Modules -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-jooq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-config</artifactId>
+        </dependency>
+        <!-- Database Distribution & Flyway Migration Module -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-db-dist</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Starter jOOQ (Replaces Hibernate / JPA) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
+
+        <!-- Spring JDBC & Transaction Management -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!-- Bean Validation (JSR-380) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- IBM Db2 Official JDBC JCC Driver -->
+        <dependency>
+            <groupId>com.ibm.db2</groupId>
+            <artifactId>jcc</artifactId>
+        </dependency>
+
+
+        <!-- Testing Suite -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

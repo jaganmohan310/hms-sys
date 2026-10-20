@@ -1,0 +1,33 @@
+type: object
+properties:
+  success:
+    type: boolean
+    example: true
+  message:
+    type: string
+    example: "Authentication successful. Welcome to PulseSquare HMS."
+  token:
+    type: string
+    description: Signed JWT Token
+    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiJ9..."
+  tokenType:
+    type: string
+    example: "Bearer"
+  expiresIn:
+    type: integer
+    format: int64
+    example: 86400000
+  user:
+    $ref: './UserDto.yaml'
+  username:
+    type: string
+    example: "admin"
+  fullName:
+    type: string
+    example: "Hospital Administrator"
+  role:
+    type: string
+    example: "ADMIN"
+  email:
+    type: string
+    example: "admin@pulsesquare.com"

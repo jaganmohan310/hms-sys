@@ -1,0 +1,16 @@
+post:
+  tags:
+    - Authentication & Access Control
+  summary: User Logout
+  description: |
+    Invalidates client session and records an audit log entry for compliance.
+  operationId: logoutUser
+  security:
+    - BearerAuth: []
+  responses:
+    '200':
+      description: Session ended successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiResponseVoid.yaml'

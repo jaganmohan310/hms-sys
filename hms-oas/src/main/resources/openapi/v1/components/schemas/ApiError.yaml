@@ -1,0 +1,24 @@
+type: object
+properties:
+  timestamp:
+    type: string
+    format: date-time
+  status:
+    type: integer
+    example: 400
+  error:
+    type: string
+    example: "Bad Request"
+  message:
+    type: string
+    example: "Input validation failed for one or more fields"
+  path:
+    type: string
+    example: "/api/v1/auth/signup"
+  validationErrors:
+    type: object
+    additionalProperties:
+      type: string
+    example:
+      email: "Please provide a valid email address"
+      username: "Username must be between 3 and 50 characters"

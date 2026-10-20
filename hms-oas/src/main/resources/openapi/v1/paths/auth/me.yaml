@@ -1,0 +1,29 @@
+get:
+  tags:
+    - Authentication & Access Control
+  summary: Current Authenticated User Profile
+  description: |
+    Resolves the identity and role permissions of the currently authenticated user 
+    using the provided Bearer token or Spring Security principal.
+  operationId: getCurrentUserProfile
+  security:
+    - BearerAuth: []
+  responses:
+    '200':
+      description: Current user identity profile and granted roles.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiResponseUser.yaml'
+    '401':
+      description: Unauthorized - missing, invalid, or expired JWT token.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'
+    '404':
+      description: User profile corresponding to token subject was not found in the database.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'

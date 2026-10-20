@@ -1,0 +1,46 @@
+type: object
+required:
+  - username
+  - password
+  - email
+  - fullName
+properties:
+  username:
+    type: string
+    minLength: 3
+    maxLength: 50
+    pattern: '^[a-zA-Z0-9._-]+$'
+    description: Unique username handle
+    example: "dr_rajesh"
+  password:
+    type: string
+    format: password
+    minLength: 6
+    maxLength: 100
+    description: Strong password
+    example: "DoctorPass@123"
+  email:
+    type: string
+    format: email
+    description: Corporate or personal email
+    example: "dr.rajesh@pulsesquare.com"
+  fullName:
+    type: string
+    minLength: 2
+    maxLength: 100
+    description: Legal full name
+    example: "Dr. Rajesh Sharma"
+  role:
+    type: string
+    enum: [ADMIN, DOCTOR, NURSE, RECEPTIONIST, PHARMACIST, LAB_TECH, PATIENT]
+    default: PATIENT
+    description: Healthcare role
+    example: "DOCTOR"
+  contactNumber:
+    type: string
+    description: Contact telephone number
+    example: "+91-9876543210"
+  department:
+    type: string
+    description: Assigned hospital ward or department
+    example: "Cardiology"

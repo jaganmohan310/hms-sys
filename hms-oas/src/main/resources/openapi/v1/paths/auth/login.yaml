@@ -1,0 +1,39 @@
+post:
+  tags:
+    - Authentication & Access Control
+  summary: User Login
+  description: |
+    Authenticates an enterprise healthcare user (Doctor, Nurse, Admin, Receptionist, Patient) 
+    using username or email and password. Generates a signed stateless HMAC-SHA256 JWT Bearer token 
+    and logs audit trail for compliance.
+  operationId: loginUser
+  requestBody:
+    description: User credentials payload
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/LoginRequest.yaml'
+        example:
+          username: "admin"
+          password: "admin123"
+          rememberMe: true
+  responses:
+    '200':
+      description: Authentication successful. Returns JWT token and user profile.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/AuthResponse.yaml'
+    '401':
+      description: Authentication failure due to invalid credentials, account lock, or inactive user.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'
+    '500':
+      description: Internal server error or database connectivity failure.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'

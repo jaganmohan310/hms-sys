@@ -1,0 +1,40 @@
+post:
+  tags:
+    - Authentication & Access Control
+  summary: Register User
+  description: |
+    Registers a new clinical, operational, or patient user in the hospital database.
+    Requires unique username and corporate email address.
+  operationId: registerUser
+  requestBody:
+    description: Registration payload containing personal and role information
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/SignupRequest.yaml'
+  responses:
+    '201':
+      description: User registered successfully. Returns provisioned user profile.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiResponseUser.yaml'
+    '400':
+      description: Validation error in submitted user profile.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'
+    '409':
+      description: Conflict - username or email is already in use by another staff member.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'
+    '500':
+      description: Internal server error during user provisioning.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'

@@ -1,0 +1,35 @@
+type: object
+properties:
+  id:
+    type: integer
+    format: int64
+    example: 1
+  username:
+    type: string
+    example: "admin"
+  email:
+    type: string
+    example: "admin@pulsesquare.com"
+  fullName:
+    type: string
+    example: "Hospital Administrator"
+  role:
+    type: string
+    example: "ADMIN"
+  roles:
+    type: array
+    items:
+      type: string
+    example: ["ROLE_ADMIN"]
+  department:
+    type: string
+    example: "Administration"
+  contactNumber:
+    type: string
+    example: "+1-800-555-0199"
+  accountEnabled:
+    type: boolean
+    example: true
+  createdAt:
+    type: string
+    format: date-time

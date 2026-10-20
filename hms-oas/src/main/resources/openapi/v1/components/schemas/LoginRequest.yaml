@@ -1,0 +1,19 @@
+type: object
+required:
+  - username
+  - password
+properties:
+  username:
+    type: string
+    description: Username or registered email address
+    example: "admin"
+  password:
+    type: string
+    format: password
+    description: Plaintext password
+    example: "admin123"
+  rememberMe:
+    type: boolean
+    description: Maintain long-lived session
+    default: false
+    example: true

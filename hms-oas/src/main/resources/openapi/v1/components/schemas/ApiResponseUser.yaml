@@ -1,0 +1,13 @@
+type: object
+properties:
+  success:
+    type: boolean
+    example: true
+  message:
+    type: string
+    example: "Operation successful"
+  data:
+    $ref: './UserDto.yaml'
+  timestamp:
+    type: string
+    format: date-time
