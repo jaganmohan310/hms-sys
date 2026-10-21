@@ -45,12 +45,8 @@ public class SecurityConfig {
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: " + authException.getMessage()))
             .and()
             .authorizeRequests()
-                // Static Assets & AngularJS Frontend
-                .antMatchers("/", "/index.html", "/login.html", "/dashboard.html",
-                             "/static/**", "/images/**", "/js/**", "/webjars/**", "/favicon.ico")
-                    .permitAll()
-                // OpenAPI / Swagger Documentation
-                .antMatchers("/hms", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/openapi/**")
+                // Root redirect & OpenAPI / Swagger Documentation
+                .antMatchers("/", "/hms", "/hms/", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/openapi/**")
                     .permitAll()
                 // Public Authentication Endpoints (supports both /api/v1/auth and legacy /api/auth)
                 .antMatchers(HttpMethod.POST,

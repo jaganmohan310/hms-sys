@@ -2,12 +2,11 @@ package com.pulsesquare.hms.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Enterprise Web MVC Configuration: CORS mappings, static resource resolution, and `/hms` OpenAPI redirect.
+ * Enterprise Web MVC Configuration: CORS mappings and `/hms` OpenAPI documentation redirect.
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -24,16 +23,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/login.html");
-        registry.addViewController("/login").setViewName("forward:/login.html");
-        registry.addViewController("/dashboard").setViewName("forward:/dashboard.html");
+        registry.addViewController("/").setViewName("redirect:/swagger-ui/index.html");
         registry.addViewController("/hms").setViewName("redirect:/swagger-ui/index.html");
         registry.addViewController("/hms/").setViewName("redirect:/swagger-ui/index.html");
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/");
     }
 }

@@ -64,12 +64,12 @@ class RbacSecurityFunctionalTest {
     }
 
     @Test
-    @DisplayName("FT-08: Public Static Endpoints - Accessible without authentication")
-    void testPublicStaticPagesAccessible() throws Exception {
-        mockMvc.perform(get("/login.html"))
-                .andExpect(status().isOk());
+    @DisplayName("FT-08: Public API Documentation Endpoints - Accessible without authentication")
+    void testPublicDocumentationAccessible() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().is3xxRedirection());
 
-        mockMvc.perform(get("/index.html"))
+        mockMvc.perform(get("/v3/api-docs"))
                 .andExpect(status().isOk());
     }
 }

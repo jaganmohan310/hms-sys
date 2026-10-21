@@ -8,18 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Hidden
 public class WebController {
 
-    @GetMapping({"", "/", "/login"})
-    public String login() {
-        return "forward:/login.html";
-    }
-
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "forward:/dashboard.html";
-    }
-
-    @GetMapping({"/hms", "/hms/"})
-    public String hmsDocs() {
+    @GetMapping({"", "/", "/hms", "/hms/"})
+    public String apiDocs() {
         return "redirect:/swagger-ui/index.html";
     }
 }
