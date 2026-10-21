@@ -209,10 +209,12 @@ public class AuthServiceImpl implements AuthService {
             if (token.startsWith("Bearer ")) {
                 token = token.substring(7);
             }
-            if (jwtTokenProvider.validateToken(token)) {
-                username = jwtTokenProvider.getUsernameFromToken(token);
+            String extracted = jwtTokenProvider.getUsernameFromToken(token);
+            if (extracted != null && !extracted.trim().isEmpty()) {
+                username = extracted.trim();
             }
         }
+
         auditService.logEvent("LOGOUT", username, ipAddress, userAgent, "SUCCESS", "Session ended");
         logger.info("Enterprise user logged out: {}", username);
     }

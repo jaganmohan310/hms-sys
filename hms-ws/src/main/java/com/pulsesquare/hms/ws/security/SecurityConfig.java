@@ -52,14 +52,17 @@ public class SecurityConfig {
                 // OpenAPI / Swagger Documentation
                 .antMatchers("/hms", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/openapi/**")
                     .permitAll()
-                // Public Authentication Endpoints
-                .antMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/signup", "/api/v1/auth/logout")
+                // Public Authentication Endpoints (supports both /api/v1/auth and legacy /api/auth)
+                .antMatchers(HttpMethod.POST,
+                        "/api/v1/auth/login", "/api/v1/auth/signup", "/api/v1/auth/logout",
+                        "/api/auth/login", "/api/auth/register", "/api/auth/signup", "/api/auth/logout")
                     .permitAll()
                 // Health & Diagnostics
-                .antMatchers(HttpMethod.GET, "/api/v1/auth/status", "/actuator/**")
+                .antMatchers(HttpMethod.GET,
+                        "/api/v1/auth/status", "/api/auth/status", "/actuator/**")
                     .permitAll()
                 // Protected Endpoints
-                .antMatchers("/api/v1/auth/me")
+                .antMatchers("/api/v1/auth/me", "/api/auth/me")
                     .authenticated()
                 .anyRequest()
                     .authenticated();

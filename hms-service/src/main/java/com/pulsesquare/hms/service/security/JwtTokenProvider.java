@@ -87,6 +87,9 @@ public class JwtTokenProvider {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
+        } catch (ExpiredJwtException e) {
+            // Token has expired, but claims payload is authentic and needed for session teardown & audit logging
+            return e.getClaims();
         } catch (JwtException | IllegalArgumentException e) {
             logger.warn("JWT token parsing failed: {}", e.getMessage());
             return null;
