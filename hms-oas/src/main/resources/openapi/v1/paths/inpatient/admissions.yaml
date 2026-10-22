@@ -1,0 +1,35 @@
+get:
+  tags:
+    - In-Patient Care & Bed Management
+  summary: List current in-patient admissions and ward census
+  description: Returns active inpatient stays, ward and bed allocations, admission dates, and attending physicians.
+  operationId: listInPatientAdmissions
+  security:
+    - BearerAuth: []
+  parameters:
+    - name: ward
+      in: query
+      schema:
+        type: string
+    - name: status
+      in: query
+      schema:
+        type: string
+        example: "ADMITTED"
+  responses:
+    '200':
+      description: Inpatient admissions census retrieved successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'

@@ -14,8 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = HmsFunctionalTestApplication.class)
 @AutoConfigureMockMvc
@@ -64,10 +63,14 @@ class RbacSecurityFunctionalTest {
     }
 
     @Test
-    @DisplayName("FT-08: Public API Documentation Endpoints - Accessible without authentication")
+    @DisplayName("FT-08: Public Portal, Health, and OpenAPI Endpoints - Accessible without authentication")
     void testPublicDocumentationAccessible() throws Exception {
         mockMvc.perform(get("/"))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/hms/index.html"));
+
+        mockMvc.perform(get("/health"))
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/v3/api-docs"))
                 .andExpect(status().isOk());

@@ -14,10 +14,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class OasContractTest {
 
     @Test
-    @DisplayName("Should verify OpenAPI v1 spec resource exists on classpath")
+    @DisplayName("Should verify HMS Functional OpenAPI specifications exist on classpath for v1 and v2")
     void testSpecResourceExists() {
-        InputStream is = getClass().getResourceAsStream("/openapi/v1/hms-auth-api.yaml");
-        assertNotNull(is, "OpenAPI v1 specification YAML file must be present in classpath");
+        InputStream isV1 = getClass().getResourceAsStream("/openapi/v1/hms-api.yaml");
+        assertNotNull(isV1, "OpenAPI v1 specification YAML file must be present in classpath");
+
+        InputStream isV1Legacy = getClass().getResourceAsStream("/openapi/v1/hms-auth-api.yaml");
+        assertNotNull(isV1Legacy, "OpenAPI v1 auth specification YAML file must be present in classpath");
+
+        InputStream isV2 = getClass().getResourceAsStream("/openapi/v2/hms-api.yaml");
+        assertNotNull(isV2, "OpenAPI v2 specification YAML file must be present in classpath");
     }
 
     @Test

@@ -1,0 +1,16 @@
+type: object
+required:
+  - success
+  - message
+properties:
+  success:
+    type: boolean
+    example: true
+  message:
+    type: string
+    example: "Patient operation completed successfully"
+  data:
+    $ref: './PatientDto.yaml'
+  timestamp:
+    type: string
+    format: date-time

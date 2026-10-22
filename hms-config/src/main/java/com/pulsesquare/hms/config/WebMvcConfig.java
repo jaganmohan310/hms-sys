@@ -2,11 +2,13 @@ package com.pulsesquare.hms.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Enterprise Web MVC Configuration: CORS mappings and `/hms` OpenAPI documentation redirect.
+ * Enterprise Web MVC Configuration:
+ * CORS mappings, `/hms` Developer & Operations Hub portal forwarding, and static assets.
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -22,9 +24,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/hms/**")
+                .addResourceLocations("classpath:/static/hms/");
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/");
+    }
+
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("redirect:/swagger-ui/index.html");
-        registry.addViewController("/hms").setViewName("redirect:/swagger-ui/index.html");
-        registry.addViewController("/hms/").setViewName("redirect:/swagger-ui/index.html");
+        // Forward root and /hms directly to the static Developer & Operations Portal
+        registry.addViewController("/").setViewName("forward:/hms/index.html");
+        registry.addViewController("/hms").setViewName("forward:/hms/index.html");
+        registry.addViewController("/hms/").setViewName("forward:/hms/index.html");
     }
 }

@@ -1,0 +1,42 @@
+get:
+  tags:
+    - Billing & Revenue Cycle Management
+  summary: Search and retrieve patient billing invoices
+  description: Returns invoices, line item procedure charges, payments, and outstanding balances.
+  operationId: listInvoices
+  security:
+    - BearerAuth: []
+  parameters:
+    - name: patientId
+      in: query
+      description: Filter by patient identifier
+      required: false
+      schema:
+        type: integer
+        format: int64
+    - name: status
+      in: query
+      description: Payment status (PAID, PARTIAL, PENDING, CANCELLED)
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Invoice records retrieved successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              totalCount:
+                type: integer
+                example: 10
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'

@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseSquare HMS - Developer & Operations Hub</title>
+    <style>
+        :root {
+            --bg-base: #0b1120;
+            --bg-card: #151e32;
+            --bg-card-hover: #1c2742;
+            --border: #263554;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --cyan-accent: #0284c7;
+            --cyan-glow: rgba(2, 132, 199, 0.25);
+            --emerald-accent: #10b981;
+            --emerald-glow: rgba(16, 185, 129, 0.25);
+            --purple-accent: #8b5cf6;
+            --amber-accent: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+        }
+
+        /* -----------------------------------------------------------------
+           Header Navigation
+           ----------------------------------------------------------------- */
+        header {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-emblem {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            color: #ffffff;
+            box-shadow: 0 0 16px var(--cyan-glow);
+        }
+
+        .brand-titles h1 {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: #ffffff;
+        }
+
+        .brand-titles p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .live-status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #34d399;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--emerald-accent);
+            box-shadow: 0 0 8px var(--emerald-accent);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.25); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        /* -----------------------------------------------------------------
+           Main Content Layout
+           ----------------------------------------------------------------- */
+        main {
+            flex: 1;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 40px 24px 60px;
+        }
+
+        .hero-banner {
+            margin-bottom: 36px;
+            text-align: center;
+        }
+
+        .hero-banner h2 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-banner p {
+            font-size: 15px;
+            color: var(--text-muted);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 24px;
+            margin-bottom: 36px;
+        }
+
+        /* -----------------------------------------------------------------
+           Hub Cards
+           ----------------------------------------------------------------- */
+        .hub-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hub-card:hover {
+            background: var(--bg-card-hover);
+            border-color: #3b4e75;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 14px;
+            width: fit-content;
+        }
+
+        .badge-cyan {
+            background: rgba(2, 132, 199, 0.18);
+            color: #38bdf8;
+            border: 1px solid rgba(2, 132, 199, 0.4);
+        }
+
+        .badge-emerald {
+            background: rgba(16, 185, 129, 0.18);
+            color: #4ade80;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .badge-purple {
+            background: rgba(139, 92, 246, 0.18);
+            color: #c084fc;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+
+        .card-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* -----------------------------------------------------------------
+           Interactive Version Buttons (v1 & v2)
+           ----------------------------------------------------------------- */
+        .version-button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .btn-version {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-v1 {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px var(--cyan-glow);
+        }
+
+        .btn-v1:hover {
+            background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+            transform: scale(1.01);
+        }
+
+        .btn-v2 {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-color: #334155;
+        }
+
+        .btn-v2:hover {
+            background: #27354f;
+            border-color: var(--purple-accent);
+            color: #ffffff;
+        }
+
+        .version-subtext {
+            font-size: 11px;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        /* -----------------------------------------------------------------
+           Live Health Display Box
+           ----------------------------------------------------------------- */
+        .health-display-box {
+            background: #0d1526;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .health-metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+        }
+
+        .health-metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: var(--text-muted);
+        }
+
+        .metric-val-ok {
+            color: #34d399;
+            font-weight: 600;
+        }
+
+        .metric-val-cyan {
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        .btn-action-emerald {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: #ffffff;
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action-emerald:hover {
+            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+        }
+
+        .btn-action-outline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action-outline:hover {
+            color: #ffffff;
+            border-color: #475569;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* -----------------------------------------------------------------
+           Actuator Endpoint Links
+           ----------------------------------------------------------------- */
+        .actuator-links-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn-actuator-item {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            padding: 10px 12px;
+            border-radius: 6px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 12px;
+            font-family: monospace;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .btn-actuator-item:hover {
+            border-color: var(--cyan-accent);
+            color: #ffffff;
+            background: #172554;
+        }
+
+        /* -----------------------------------------------------------------
+           Raw Telemetry Inspection Console
+           ----------------------------------------------------------------- */
+        .console-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .console-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .console-header h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .console-body {
+            background: #070d17;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 12px;
+            color: #7dd3fc;
+            overflow-x: auto;
+            max-height: 280px;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            background: #0a0f1d;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Header -->
+    <header>
+        <div class="brand-group">
+            <div class="brand-emblem">H</div>
+            <div class="brand-titles">
+                <h1>PulseSquare HMS Platform</h1>
+                <p>Enterprise Developer & Operations Hub</p>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <div class="live-status-pill">
+                <span class="pulse-dot"></span>
+                <span id="headerStatusText">OPERATIONAL (UP)</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main>
+        <section class="hero-banner">
+            <h2>Healthcare Services & Platform Telemetry</h2>
+            <p>
+                Strictly segregated OpenAPI 3.0 functional specifications for HMS healthcare workflows,
+                with dedicated out-of-band operational health probes and Spring Boot Actuator telemetry.
+            </p>
+        </section>
+
+        <!-- 3 Core Columns: OpenAPI Swagger / Health / Actuator -->
+        <div class="hub-grid">
+
+            <!-- =========================================================
+                 CARD 1: OPENAPI / SWAGGER DOCUMENTATION (HMS FUNCTIONALITIES ONLY)
+                 ========================================================= -->
+            <div class="hub-card">
+                <div>
+                    <span class="card-badge badge-cyan">OpenAPI 3.0 Contracts</span>
+                    <div class="card-header">
+                        <h3>HMS Functional API</h3>
+                        <p>
+                            Interactive Swagger UI dedicated strictly to hospital clinical and administrative
+                            functionalities. Actuator and infrastructure telemetry are segregated.
+                        </p>
+                    </div>
+
+                    <div class="version-button-group">
+                        <!-- Version 1: Core HMS Functionality -->
+                        <a href="/swagger-ui/index.html?urls.primaryName=v1" class="btn-version btn-v1" title="Open HMS v1.0 Swagger Documentation">
+                            <div>
+                                <div>v1.0 (Core Functionality)</div>
+                                <div class="version-subtext">Auth, Patients, OPD, Invoicing, Lab, IP, Radiology</div>
+                            </div>
+                            <span>&rarr;</span>
+                        </a>
+
+                        <!-- Version 2: Next-Gen Interoperability -->
+                        <a href="/swagger-ui/index.html?urls.primaryName=v2" class="btn-version btn-v2" title="Open HMS v2.0 Next-Gen FHIR Swagger Documentation">
+                            <div>
+                                <div>v2.0 (Next-Gen Preview)</div>
+                                <div class="version-subtext">HL7 FHIR R4 Resources, SMART-on-FHIR OAuth2</div>
+                            </div>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <a href="/swagger-ui/index.html" class="btn-action-outline" title="Open Swagger UI with Dropdown Group Selector">
+                        <span>Select Version Inside Swagger UI</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- =========================================================
+                 CARD 2: SYSTEM HEALTH (DIRECT, NO SWAGGER)
+                 ========================================================= -->
+            <div class="hub-card" id="healthSection">
+                <div>
+                    <span class="card-badge badge-emerald">Operational Health</span>
+                    <div class="card-header">
+                        <h3>System Health Probe</h3>
+                        <p>
+                            Direct health validation and database connectivity diagnostics.
+                            Clicking health displays live telemetry directly without navigating to Swagger UI.
+                        </p>
+                    </div>
+
+                    <!-- Real-time Health Diagnostics Box -->
+                    <div class="health-display-box" id="liveHealthBox">
+                        <div class="health-metric-row">
+                            <span class="metric-label">Status:</span>
+                            <span class="metric-val-ok" id="valStatus">CHECKING...</span>
+                        </div>
+                        <div class="health-metric-row">
+                            <span class="metric-label">Database:</span>
+                            <span class="metric-val-ok" id="valDb">IBM Db2 Enterprise</span>
+                        </div>
+                        <div class="health-metric-row">
+                            <span class="metric-label">Validation Ping:</span>
+                            <span class="metric-val-cyan" id="valLatency">-- ms</span>
+                        </div>
+                        <div class="health-metric-row">
+                            <span class="metric-label">JVM Memory:</span>
+                            <span class="metric-val-cyan" id="valMemory">-- MB free</span>
+                        </div>
+                        <div class="health-metric-row">
+                            <span class="metric-label">Uptime:</span>
+                            <span class="metric-val-cyan" id="valUptime">-- s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- Refresh Health Button (Displays live without navigating to Swagger) -->
+                    <button type="button" class="btn-action-emerald" onclick="fetchLiveHealth()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                        </svg>
+                        <span>Check Health Now</span>
+                    </button>
+
+                    <!-- Direct Raw Endpoints (Direct Access, NOT Swagger) -->
+                    <a href="/health" target="_blank" class="btn-action-outline" title="Open JSON Health Endpoint">
+                        <span>Direct Endpoint: /health (JSON)</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- =========================================================
+                 CARD 3: SPRING BOOT ACTUATOR
+                 ========================================================= -->
+            <div class="hub-card">
+                <div>
+                    <span class="card-badge badge-purple">Enterprise Telemetry</span>
+                    <div class="card-header">
+                        <h3>Spring Boot Actuator</h3>
+                        <p>
+                            Production-grade observability and runtime metric endpoints.
+                            Query application metadata, JVM thread status, and connection pool state.
+                        </p>
+                    </div>
+
+                    <div class="actuator-links-list">
+                        <a href="/actuator" target="_blank" class="btn-actuator-item" title="Actuator Discovery Catalog">
+                            <span>/actuator</span>
+                            <span>&nearr;</span>
+                        </a>
+                        <a href="/actuator/health" target="_blank" class="btn-actuator-item" title="Spring Boot Native Health">
+                            <span>/health</span>
+                            <span>&nearr;</span>
+                        </a>
+                        <a href="/actuator/metrics" target="_blank" class="btn-actuator-item" title="HikariCP & JVM Metrics">
+                            <span>/metrics</span>
+                            <span>&nearr;</span>
+                        </a>
+                        <a href="/actuator/info" target="_blank" class="btn-actuator-item" title="Build & Application Info">
+                            <span>/info</span>
+                            <span>&nearr;</span>
+                        </a>
+                        <a href="/actuator/env" target="_blank" class="btn-actuator-item" title="Environment Properties">
+                            <span>/env</span>
+                            <span>&nearr;</span>
+                        </a>
+                        <a href="/actuator/metrics/jvm.memory.used" target="_blank" class="btn-actuator-item" title="Memory Used Metric">
+                            <span>/jvm.memory</span>
+                            <span>&nearr;</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <a href="/actuator" target="_blank" class="btn-action-outline">
+                        <span>Open Actuator Discovery Endpoint</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Live Health Telemetry JSON Inspector -->
+        <section class="console-container">
+            <div class="console-header">
+                <h4>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    Live Health Inspector (Real-time Probe from /health)
+                </h4>
+                <button type="button" class="btn-action-outline" style="margin-top:0; padding:4px 10px;" onclick="fetchLiveHealth()">Refresh JSON</button>
+            </div>
+            <pre class="console-body" id="rawHealthConsole">Fetching real-time health data from /health...</pre>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        PulseSquare Healthcare Management System &bull; Enterprise Microservice Runtime &bull; Powered by jOOQ, Spring Boot & IBM Db2
+    </footer>
+
+    <!-- Script to execute live health probes automatically without navigating to Swagger -->
+    <script>
+        function fetchLiveHealth() {
+            var startTime = performance.now();
+            fetch('/health')
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    var latency = Math.round(performance.now() - startTime);
+
+                    document.getElementById('valStatus').innerText = data.status || 'UP';
+                    document.getElementById('valStatus').className = (data.status === 'UP') ? 'metric-val-ok' : 'metric-val-cyan';
+                    document.getElementById('headerStatusText').innerText = 'OPERATIONAL (' + (data.status || 'UP') + ')';
+
+                    if (data.components && data.components.database) {
+                        var db = data.components.database;
+                        document.getElementById('valDb').innerText = db.engine + ' (' + db.status + ')';
+                        document.getElementById('valLatency').innerText = (db.responseTimeMs !== undefined ? db.responseTimeMs : latency) + ' ms';
+                    } else {
+                        document.getElementById('valLatency').innerText = latency + ' ms';
+                    }
+
+                    if (data.components && data.components.memory) {
+                        var mem = data.components.memory;
+                        document.getElementById('valMemory').innerText = mem.freeMemoryMb + ' MB / ' + mem.totalMemoryMb + ' MB';
+                    }
+
+                    if (data.components && data.components.runtime) {
+                        var rt = data.components.runtime;
+                        document.getElementById('valUptime').innerText = rt.uptimeSeconds + 's (Java ' + rt.javaVersion + ')';
+                    }
+
+                    document.getElementById('rawHealthConsole').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(function(err) {
+                    document.getElementById('valStatus').innerText = 'OFFLINE / UNREACHABLE';
+                    document.getElementById('valStatus').className = 'metric-label';
+                    document.getElementById('headerStatusText').innerText = 'DEGRADED';
+                    document.getElementById('rawHealthConsole').innerText = 'Health check failed: ' + err.message + '\nVerify server is running on port 8080.';
+                });
+        }
+
+        // Auto-run on page load and periodically every 30 seconds
+        window.addEventListener('DOMContentLoaded', function() {
+            fetchLiveHealth();
+            setInterval(fetchLiveHealth, 30000);
+        });
+    </script>
+</body>
+</html>

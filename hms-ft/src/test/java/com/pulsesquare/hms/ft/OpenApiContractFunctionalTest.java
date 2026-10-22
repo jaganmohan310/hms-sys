@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = HmsFunctionalTestApplication.class)
 @AutoConfigureMockMvc
-@DisplayName("End-to-End Functional Tests - OpenAPI Contract & Swagger UI Routing")
+@DisplayName("End-to-End Functional Tests - OpenAPI Contract & Developer Hub Routing")
 class OpenApiContractFunctionalTest {
 
     @Autowired
@@ -26,11 +26,11 @@ class OpenApiContractFunctionalTest {
     private AuthService authService;
 
     @Test
-    @DisplayName("FT-09: OpenAPI /hms Routing - Redirects seamlessly to Swagger UI")
+    @DisplayName("FT-09: Developer & Operations Portal /hms - Forwards to static Hub containing OpenAPI, Health, and Actuator")
     void testHmsDocsRedirect() throws Exception {
         mockMvc.perform(get("/hms"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/swagger-ui/index.html"));
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("/hms/index.html"));
     }
 
     @Test

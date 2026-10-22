@@ -1,0 +1,38 @@
+type: object
+required:
+  - id
+  - mrn
+  - firstName
+  - lastName
+  - gender
+properties:
+  id:
+    type: integer
+    format: int64
+    example: 1001
+  mrn:
+    type: string
+    example: "MRN-2026-001001"
+  firstName:
+    type: string
+    example: "Rahul"
+  lastName:
+    type: string
+    example: "Sharma"
+  gender:
+    type: string
+    enum: [MALE, FEMALE, OTHER]
+    example: "MALE"
+  dateOfBirth:
+    type: string
+    format: date
+    example: "1988-06-15"
+  contactNumber:
+    type: string
+    example: "+91-9876543210"
+  bloodGroup:
+    type: string
+    example: "O+"
+  address:
+    type: string
+    example: "A-42, Silicon Enclave, Hyderabad"

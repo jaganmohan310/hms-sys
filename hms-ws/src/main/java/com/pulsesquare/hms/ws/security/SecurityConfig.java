@@ -45,17 +45,17 @@ public class SecurityConfig {
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: " + authException.getMessage()))
             .and()
             .authorizeRequests()
-                // Root redirect & OpenAPI / Swagger Documentation
-                .antMatchers("/", "/hms", "/hms/", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/openapi/**")
+                // Portal & Swagger Documentation
+                .antMatchers("/", "/hms", "/hms/", "/hms/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/openapi/**", "/static/**")
+                    .permitAll()
+                // Public Health & Diagnostics Endpoints (No Swagger, Direct Access)
+                .antMatchers(HttpMethod.GET,
+                        "/health", "/health/**", "/api/v1/health", "/api/v1/auth/status", "/api/auth/status", "/actuator/**")
                     .permitAll()
                 // Public Authentication Endpoints (supports both /api/v1/auth and legacy /api/auth)
                 .antMatchers(HttpMethod.POST,
                         "/api/v1/auth/login", "/api/v1/auth/signup", "/api/v1/auth/logout",
                         "/api/auth/login", "/api/auth/register", "/api/auth/signup", "/api/auth/logout")
-                    .permitAll()
-                // Health & Diagnostics
-                .antMatchers(HttpMethod.GET,
-                        "/api/v1/auth/status", "/api/auth/status", "/actuator/**")
                     .permitAll()
                 // Protected Endpoints
                 .antMatchers("/api/v1/auth/me", "/api/auth/me")

@@ -1,0 +1,107 @@
+openapi: 3.0.3
+info:
+  title: PulseSquare Healthcare Management System (HMS) REST API v1
+  description: |
+    Enterprise-grade Healthcare REST API specification for HMS Core Clinical and Administrative Services.
+    Encompasses Identity Management, Role-Based Access Control (RBAC), Patient Master Index,
+    Consultations, Revenue Cycle Billing, Soft Lab Diagnostics, In-Patient Ward Care, and Radiology Imaging.
+    
+    System Health and Platform Telemetry are strictly segregated to `/health` and `/actuator`.
+  version: 1.0.0
+  contact:
+    name: PulseSquare Enterprise Architecture Team
+    email: architecture@pulsesquare.com
+    url: https://pulsesquare.com/hms
+  license:
+    name: Enterprise Healthcare Software License
+    url: https://pulsesquare.com/license
+
+servers:
+  - url: http://localhost:8080
+    description: Local Development / Runtime Instance
+  - url: https://hms.pulsesquare.com
+    description: Production Cloud Enterprise Instance
+
+tags:
+  - name: Authentication & Access Control
+    description: Identity verification, credential authentication, JWT token issuance, and session lifecycle
+  - name: Patient Administration & Demographics
+    description: Master Patient Index (MPI), demographic records, registration, and patient lookup
+  - name: Consultations & Clinical Appointments
+    description: Outpatient consultations, clinician rosters, and patient queue scheduling
+  - name: Billing & Revenue Cycle Management
+    description: Invoicing, procedure billing, copay collection, and financial reconciliation
+  - name: Diagnostic Soft Lab & Pathology
+    description: Pathology orders, lab test specimen tracking, and verified clinical reports
+  - name: In-Patient Care & Bed Management
+    description: Ward census, inpatient admissions, bed transfers, and discharge management
+  - name: Radiology & Medical Imaging
+    description: Modality order scheduling, PACS integration, and radiological diagnostic reports
+
+# =============================================================================
+# Modular HMS Functional Paths Routing Table
+# =============================================================================
+paths:
+  # 1. Authentication & Session Services
+  /api/v1/auth/login:
+    $ref: './paths/auth/login.yaml'
+  /api/v1/auth/signup:
+    $ref: './paths/auth/signup.yaml'
+  /api/v1/auth/me:
+    $ref: './paths/auth/me.yaml'
+  /api/v1/auth/logout:
+    $ref: './paths/auth/logout.yaml'
+
+  # 2. Patient Master Index Services
+  /api/v1/patients:
+    $ref: './paths/patient/patients.yaml'
+
+  # 3. Clinical Consultation Services
+  /api/v1/consultations:
+    $ref: './paths/consultation/consultations.yaml'
+
+  # 4. Financial & Billing Services
+  /api/v1/billing/invoices:
+    $ref: './paths/billing/invoices.yaml'
+
+  # 5. Laboratory Services
+  /api/v1/lab/orders:
+    $ref: './paths/lab/orders.yaml'
+
+  # 6. In-Patient Services
+  /api/v1/inpatient/admissions:
+    $ref: './paths/inpatient/admissions.yaml'
+
+  # 7. Radiology Services
+  /api/v1/radiology/orders:
+    $ref: './paths/radiology/orders.yaml'
+
+# =============================================================================
+# Reusable Components & Schemas Registry
+# =============================================================================
+components:
+  securitySchemes:
+    BearerAuth:
+      $ref: './components/security/BearerAuth.yaml'
+
+  schemas:
+    LoginRequest:
+      $ref: './components/schemas/LoginRequest.yaml'
+    SignupRequest:
+      $ref: './components/schemas/SignupRequest.yaml'
+    UserDto:
+      $ref: './components/schemas/UserDto.yaml'
+    AuthResponse:
+      $ref: './components/schemas/AuthResponse.yaml'
+    ApiResponseUser:
+      $ref: './components/schemas/ApiResponseUser.yaml'
+    ApiResponseVoid:
+      $ref: './components/schemas/ApiResponseVoid.yaml'
+    ApiError:
+      $ref: './components/schemas/ApiError.yaml'
+    PatientDto:
+      $ref: './components/schemas/PatientDto.yaml'
+    PatientCreateRequest:
+      $ref: './components/schemas/PatientCreateRequest.yaml'
+    ApiResponsePatient:
+      $ref: './components/schemas/ApiResponsePatient.yaml'

@@ -1,0 +1,84 @@
+get:
+  tags:
+    - Patient Administration & Demographics
+  summary: Search and list patient medical records
+  description: Retrieve a paginated list of registered patients matching search criteria or filtering by department and status.
+  operationId: listPatients
+  security:
+    - BearerAuth: []
+  parameters:
+    - name: query
+      in: query
+      description: Search by name, MRN (Medical Record Number), or contact number
+      required: false
+      schema:
+        type: string
+    - name: page
+      in: query
+      description: Zero-based page index
+      required: false
+      schema:
+        type: integer
+        default: 0
+    - name: size
+      in: query
+      description: Number of records per page
+      required: false
+      schema:
+        type: integer
+        default: 20
+  responses:
+    '200':
+      description: Successfully retrieved list of patient records
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: "Patient records retrieved"
+              data:
+                type: array
+                items:
+                  $ref: '../../components/schemas/PatientDto.yaml'
+              totalCount:
+                type: integer
+                example: 1
+    '401':
+      description: Unauthorized - missing or expired JWT token
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'
+
+post:
+  tags:
+    - Patient Administration & Demographics
+  summary: Register a new patient in the hospital master index
+  description: Creates a master patient index (MPI) entry with demographic details, next-of-kin, and triage notes.
+  operationId: registerPatient
+  security:
+    - BearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/PatientCreateRequest.yaml'
+  responses:
+    '201':
+      description: Patient registered successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiResponsePatient.yaml'
+    '400':
+      description: Validation failure or duplicate MRN
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'

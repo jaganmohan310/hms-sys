@@ -1,0 +1,29 @@
+type: object
+required:
+  - firstName
+  - lastName
+  - gender
+properties:
+  firstName:
+    type: string
+    example: "Rahul"
+  lastName:
+    type: string
+    example: "Sharma"
+  gender:
+    type: string
+    enum: [MALE, FEMALE, OTHER]
+    example: "MALE"
+  dateOfBirth:
+    type: string
+    format: date
+    example: "1988-06-15"
+  contactNumber:
+    type: string
+    example: "+91-9876543210"
+  bloodGroup:
+    type: string
+    example: "O+"
+  address:
+    type: string
+    example: "A-42, Silicon Enclave, Hyderabad"

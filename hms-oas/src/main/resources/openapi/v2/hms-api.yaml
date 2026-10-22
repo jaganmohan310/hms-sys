@@ -1,0 +1,136 @@
+openapi: 3.0.3
+info:
+  title: PulseSquare Healthcare Management System (HMS) REST API v2 (Preview)
+  description: |
+    Next-Generation PulseSquare HMS REST API Specification (Version 2.0.0).
+    Features HL7 FHIR R4 standard resources for interoperable Electronic Health Records (EHR),
+    event-driven clinical notifications, and OAuth2 OIDC authorization.
+  version: 2.0.0
+  contact:
+    name: PulseSquare Standards & Interoperability Lab
+    email: fhir-wg@pulsesquare.com
+    url: https://pulsesquare.com/fhir
+  license:
+    name: Enterprise Healthcare Software License
+    url: https://pulsesquare.com/license
+
+servers:
+  - url: http://localhost:8080
+    description: Next-Gen Preview Instance
+
+tags:
+  - name: FHIR R4 Patient Clinical Record
+    description: HL7 FHIR (Fast Healthcare Interoperability Resources) R4 Patient resource endpoints
+  - name: FHIR R4 Clinical Encounters
+    description: Patient encounters, episodes of care, and physician consultations
+  - name: OAuth2 & OIDC Identity Token
+    description: OAuth 2.0 Token exchange for third-party medical applications and SMART-on-FHIR apps
+
+paths:
+  /api/v2/fhir/Patient:
+    get:
+      tags:
+        - FHIR R4 Patient Clinical Record
+      summary: FHIR R4 Patient resource search
+      description: Search FHIR Patient resources conforming to HL7 FHIR US-Core and International Patient Summary (IPS) standards.
+      operationId: fhirSearchPatients
+      parameters:
+        - name: identifier
+          in: query
+          description: Patient system identifier or national healthcare ID
+          required: false
+          schema:
+            type: string
+        - name: family
+          in: query
+          description: Patient family/surname
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: FHIR Bundle of Patient resources
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FhirBundle'
+  
+  /api/v2/fhir/Encounter:
+    get:
+      tags:
+        - FHIR R4 Clinical Encounters
+      summary: FHIR R4 Clinical Encounter search
+      description: Retrieve outpatient and inpatient clinical encounter records.
+      operationId: fhirSearchEncounters
+      responses:
+        '200':
+          description: FHIR Bundle of Encounters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FhirBundle'
+
+  /api/v2/auth/oauth2/token:
+    post:
+      tags:
+        - OAuth2 & OIDC Identity Token
+      summary: OAuth 2.0 / SMART-on-FHIR Token Endpoint
+      description: Exchange client credentials or authorization codes for FHIR-scoped JWT tokens.
+      operationId: exchangeOAuthToken
+      responses:
+        '200':
+          description: Token granted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    example: "Bearer"
+                  expires_in:
+                    type: integer
+                    example: 3600
+                  scope:
+                    type: string
+                    example: "patient/*.read launch"
+
+components:
+  schemas:
+    FhirBundle:
+      type: object
+      required:
+        - resourceType
+        - type
+      properties:
+        resourceType:
+          type: string
+          example: "Bundle"
+        type:
+          type: string
+          example: "searchset"
+        total:
+          type: integer
+          example: 1
+        entry:
+          type: array
+          items:
+            type: object
+            properties:
+              fullUrl:
+                type: string
+                example: "http://localhost:8080/api/v2/fhir/Patient/1001"
+              resource:
+                type: object
+                properties:
+                  resourceType:
+                    type: string
+                    example: "Patient"
+                  id:
+                    type: string
+                    example: "1001"
+                  active:
+                    type: boolean
+                    example: true
