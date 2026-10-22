@@ -55,6 +55,8 @@ paths:
   # 2. Patient Master Index Services
   /api/v1/patients:
     $ref: './paths/patient/patients.yaml'
+  /api/v1/patients/mrn/{mrn}:
+    $ref: './paths/patient/patient-by-mrn.yaml'
 
   # 3. Clinical Consultation Services
   /api/v1/consultations:

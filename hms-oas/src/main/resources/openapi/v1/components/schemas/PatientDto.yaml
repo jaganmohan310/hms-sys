@@ -12,10 +12,16 @@ properties:
     example: 1001
   mrn:
     type: string
-    example: "MRN-2026-001001"
+    example: "MRN-2026-010001"
+  title:
+    type: string
+    example: "Mr"
   firstName:
     type: string
     example: "Rahul"
+  middleName:
+    type: string
+    example: "Kumar"
   lastName:
     type: string
     example: "Sharma"
@@ -27,12 +33,63 @@ properties:
     type: string
     format: date
     example: "1988-06-15"
-  contactNumber:
-    type: string
-    example: "+91-9876543210"
+  ageYears:
+    type: integer
+    example: 38
+  ageMonths:
+    type: integer
+    example: 4
+  ageDays:
+    type: integer
+    example: 12
   bloodGroup:
     type: string
     example: "O+"
+  contactNumber:
+    type: string
+    example: "+91-9876543210"
+  email:
+    type: string
+    format: email
+    example: "rahul.sharma@example.com"
+  maritalStatus:
+    type: string
+    example: "Married"
+  religion:
+    type: string
+    example: "Hindu"
   address:
     type: string
-    example: "A-42, Silicon Enclave, Hyderabad"
+    example: "A-42, Silicon Enclave"
+  city:
+    type: string
+    example: "Nizamabad"
+  state:
+    type: string
+    example: "Telangana"
+  country:
+    type: string
+    example: "India"
+  zipCode:
+    type: string
+    example: "503001"
+  referralDoctor:
+    type: string
+    example: "Dr. Rajesh Sharma"
+  department:
+    type: string
+    example: "Out-Patient"
+  registrationFee:
+    type: number
+    format: double
+    example: 100.00
+  paymentType:
+    type: string
+    example: "Cash"
+  registeredAt:
+    type: string
+    format: date-time
+    example: "2026-10-22T10:30:00"
+  active:
+    type: boolean
+    example: true

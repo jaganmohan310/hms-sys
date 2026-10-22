@@ -42,4 +42,15 @@ class FlywayMigrationScriptsTest {
         assertTrue(content.contains("DELETE FROM hms_users"), "Must purge dummy users");
         assertTrue(content.contains("RESTART WITH 1"), "Must reset identity sequence to 1");
     }
+
+    @Test
+    @DisplayName("Should verify V4 patient schema migration script creates patients table and sequence")
+    void testV4PatientSchemaScript() throws Exception {
+        InputStream is = getClass().getResourceAsStream("/db/migration/V4__create_patient_schema.sql");
+        assertNotNull(is, "V4__create_patient_schema.sql must exist on classpath");
+        String content = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        assertTrue(content.contains("CREATE TABLE hms_patients"), "Must create hms_patients table");
+        assertTrue(content.contains("CREATE SEQUENCE seq_hms_mrn"), "Must create seq_hms_mrn sequence");
+        assertTrue(content.contains("mrn VARCHAR(50) NOT NULL UNIQUE"), "Must define unique MRN column");
+    }
 }
