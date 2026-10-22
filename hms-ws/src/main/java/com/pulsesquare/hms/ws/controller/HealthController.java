@@ -1,8 +1,7 @@
 package com.pulsesquare.hms.ws.controller;
 
 import com.pulsesquare.hms.config.DataSourceConfig;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
-import java.lang.management.ManagementFactory;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.time.Instant;
@@ -22,8 +20,8 @@ import java.util.Map;
  * Provides direct, lightweight health and operational telemetry probes
  * without routing through Swagger UI.
  */
+@Hidden
 @RestController
-@Tag(name = "System Health & Diagnostics", description = "Platform Observability, Database Connectivity, and Health Status Probes")
 public class HealthController {
 
     private final DataSourceConfig dataSourceConfig;
@@ -37,8 +35,6 @@ public class HealthController {
     }
 
     @GetMapping(value = {"/health", "/api/v1/health"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Microservice and Database Health Status Probe",
-               description = "Returns real-time health diagnostics, IBM Db2 pool status, and JVM telemetry.")
     public ResponseEntity<Map<String, Object>> getHealth() {
         Map<String, Object> health = new LinkedHashMap<>();
         health.put("status", "UP");
@@ -49,11 +45,9 @@ public class HealthController {
         // 1. Database Connectivity Probe
         Map<String, Object> dbHealth = new LinkedHashMap<>();
         long dbStart = System.currentTimeMillis();
-        boolean dbOk = false;
         try (Connection conn = dataSource.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute("SELECT 1 FROM SYSIBM.SYSDUMMY1");
-            dbOk = true;
             dbHealth.put("status", "UP");
             dbHealth.put("responseTimeMs", System.currentTimeMillis() - dbStart);
         } catch (Exception ex) {

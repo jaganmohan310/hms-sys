@@ -1,15 +1,14 @@
 post:
   tags:
-    - Authentication & Access Control
+    - Authentication and Access Control
   summary: User Logout
-  description: |
-    Invalidates client session and records an audit log entry for compliance.
+  description: Invalidates active JWT token session and revokes client tokens.
   operationId: logoutUser
   security:
     - BearerAuth: []
   responses:
     '200':
-      description: Session ended successfully.
+      description: Session successfully logged out.
       content:
         application/json:
           schema:

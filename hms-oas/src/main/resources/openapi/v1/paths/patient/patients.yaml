@@ -1,6 +1,6 @@
 get:
   tags:
-    - Patient Administration & Demographics
+    - Patient Administration
   summary: Search and list patient medical records
   description: Retrieve a paginated list of registered patients matching search criteria or filtering by department and status.
   operationId: listPatients
@@ -57,7 +57,7 @@ get:
 
 post:
   tags:
-    - Patient Administration & Demographics
+    - Patient Administration
   summary: Register a new patient in the hospital master index
   description: Creates a master patient index (MPI) entry with demographic details, next-of-kin, and triage notes.
   operationId: registerPatient

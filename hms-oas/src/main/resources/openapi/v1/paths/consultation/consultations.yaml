@@ -1,6 +1,6 @@
 get:
   tags:
-    - Consultations & Clinical Appointments
+    - Consultations and Appointments
   summary: List outpatient consultations and doctor queues
   description: Returns scheduled consultations, active queue tokens, and consultation status for clinicians and receptionists.
   operationId: listConsultations

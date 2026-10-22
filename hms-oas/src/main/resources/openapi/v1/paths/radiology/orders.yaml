@@ -1,6 +1,6 @@
 get:
   tags:
-    - Radiology & Medical Imaging
+    - Radiology and Imaging
   summary: Search radiology orders and imaging study records
   description: Returns diagnostic imaging studies (X-ray, MRI, CT, Ultrasound), modality types, and PACS accession numbers.
   operationId: listRadiologyOrders

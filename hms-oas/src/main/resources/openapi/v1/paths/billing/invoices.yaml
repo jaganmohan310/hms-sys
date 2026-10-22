@@ -1,6 +1,6 @@
 get:
   tags:
-    - Billing & Revenue Cycle Management
+    - Billing and Invoicing
   summary: Search and retrieve patient billing invoices
   description: Returns invoices, line item procedure charges, payments, and outstanding balances.
   operationId: listInvoices

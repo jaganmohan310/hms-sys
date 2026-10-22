@@ -1,6 +1,6 @@
 get:
   tags:
-    - Authentication & Access Control
+    - Authentication and Access Control
   summary: Current Authenticated User Profile
   description: |
     Resolves the identity and role permissions of the currently authenticated user 
@@ -22,7 +22,7 @@ get:
           schema:
             $ref: '../../components/schemas/ApiError.yaml'
     '404':
-      description: User profile corresponding to token subject was not found in the database.
+      description: User profile not found in repository.
       content:
         application/json:
           schema:

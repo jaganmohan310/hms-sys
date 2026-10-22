@@ -1,6 +1,6 @@
 get:
   tags:
-    - In-Patient Care & Bed Management
+    - In-Patient Care
   summary: List current in-patient admissions and ward census
   description: Returns active inpatient stays, ward and bed allocations, admission dates, and attending physicians.
   operationId: listInPatientAdmissions

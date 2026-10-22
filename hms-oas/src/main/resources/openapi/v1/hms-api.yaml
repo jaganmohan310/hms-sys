@@ -23,19 +23,19 @@ servers:
     description: Production Cloud Enterprise Instance
 
 tags:
-  - name: Authentication & Access Control
+  - name: Authentication and Access Control
     description: Identity verification, credential authentication, JWT token issuance, and session lifecycle
-  - name: Patient Administration & Demographics
+  - name: Patient Administration
     description: Master Patient Index (MPI), demographic records, registration, and patient lookup
-  - name: Consultations & Clinical Appointments
+  - name: Consultations and Appointments
     description: Outpatient consultations, clinician rosters, and patient queue scheduling
-  - name: Billing & Revenue Cycle Management
+  - name: Billing and Invoicing
     description: Invoicing, procedure billing, copay collection, and financial reconciliation
-  - name: Diagnostic Soft Lab & Pathology
+  - name: Diagnostic Soft Lab
     description: Pathology orders, lab test specimen tracking, and verified clinical reports
-  - name: In-Patient Care & Bed Management
+  - name: In-Patient Care
     description: Ward census, inpatient admissions, bed transfers, and discharge management
-  - name: Radiology & Medical Imaging
+  - name: Radiology and Imaging
     description: Modality order scheduling, PACS integration, and radiological diagnostic reports
 
 # =============================================================================

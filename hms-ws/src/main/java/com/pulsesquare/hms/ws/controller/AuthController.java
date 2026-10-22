@@ -1,11 +1,10 @@
 package com.pulsesquare.hms.ws.controller;
 
 import com.pulsesquare.hms.config.DataSourceConfig;
-import com.pulsesquare.hms.oas.v1.api.AuthenticationAccessControlApi;
-import com.pulsesquare.hms.oas.v1.api.SystemHealthDiagnosticsApi;
+import com.pulsesquare.hms.oas.v1.api.AuthenticationAndAccessControlApi;
 import com.pulsesquare.hms.oas.v1.model.*;
 import com.pulsesquare.hms.service.service.AuthService;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +20,12 @@ import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Enterprise Authentication & Access Control Controller.
+ * Implements the OpenAPI 3.0 specification contract for user authentication and session management.
+ */
 @RestController
-@Tag(name = "Authentication & Access Control", description = "Enterprise REST Endpoints for User Login, Registration, JWT Token Management, and Session Life Cycle")
-public class AuthController implements AuthenticationAccessControlApi, SystemHealthDiagnosticsApi {
+public class AuthController implements AuthenticationAndAccessControlApi {
 
     private final AuthService authService;
     private final DataSourceConfig dataSourceConfig;
@@ -158,9 +160,9 @@ public class AuthController implements AuthenticationAccessControlApi, SystemHea
     }
 
     // =========================================================================
-    // 5. OAS Contract: GET /api/v1/auth/status (& fallback /api/auth/status)
+    // 5. Diagnostics Status Probe (Hidden from Swagger UI - Infrastructure Endpoint)
     // =========================================================================
-    @Override
+    @Hidden
     @GetMapping(value = {"/api/v1/auth/status", "/api/auth/status"})
     public ResponseEntity<ApiResponseStatus> getAuthStatus() {
         ApiResponseStatus response = new ApiResponseStatus();

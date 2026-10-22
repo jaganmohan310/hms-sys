@@ -1,6 +1,6 @@
 post:
   tags:
-    - Authentication & Access Control
+    - Authentication and Access Control
   summary: User Login
   description: |
     Authenticates an enterprise healthcare user (Doctor, Nurse, Admin, Receptionist, Patient) 
