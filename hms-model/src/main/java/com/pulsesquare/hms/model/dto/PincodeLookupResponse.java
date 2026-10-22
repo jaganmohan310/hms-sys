@@ -25,15 +25,23 @@ public class PincodeLookupResponse implements Serializable {
     @Schema(description = "Post offices and localities belonging to this PIN code")
     private List<String> offices = new ArrayList<>();
 
+    @Schema(description = "All unique Area / Taluk / Locality options strictly belonging to this PIN code")
+    private List<String> areas = new ArrayList<>();
+
     public PincodeLookupResponse() {
     }
 
     public PincodeLookupResponse(String pincode, String state, String district, String taluk, List<String> offices) {
+        this(pincode, state, district, taluk, offices, new ArrayList<>());
+    }
+
+    public PincodeLookupResponse(String pincode, String state, String district, String taluk, List<String> offices, List<String> areas) {
         this.pincode = pincode;
         this.state = state;
         this.district = district;
         this.taluk = taluk;
         this.offices = offices != null ? offices : new ArrayList<>();
+        this.areas = areas != null ? areas : new ArrayList<>();
     }
 
     public String getPincode() {
@@ -74,5 +82,13 @@ public class PincodeLookupResponse implements Serializable {
 
     public void setOffices(List<String> offices) {
         this.offices = offices;
+    }
+
+    public List<String> getAreas() {
+        return areas;
+    }
+
+    public void setAreas(List<String> areas) {
+        this.areas = areas;
     }
 }

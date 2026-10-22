@@ -41,14 +41,34 @@ public class PincodeRepositoryImpl implements PincodeRepository {
 
         List<String> offices = new ArrayList<>();
         Set<String> uniqueOffices = new LinkedHashSet<>();
+        List<String> areas = new ArrayList<>();
+        Set<String> uniqueAreas = new LinkedHashSet<>();
+
+        if (primaryTaluk != null && !primaryTaluk.trim().isEmpty()) {
+            if (uniqueAreas.add(primaryTaluk.trim())) {
+                areas.add(primaryTaluk.trim());
+            }
+        }
+
         for (Map<String, Object> row : rows) {
             String off = Objects.toString(row.get("OFFICE_NAME"), "").trim();
             if (!off.isEmpty() && uniqueOffices.add(off)) {
                 offices.add(off);
+                String clean = off.replaceAll("(?i)\\s+(S\\.O|B\\.O|H\\.O|P\\.O|PO|SO|BO|HO)$", "").trim();
+                if (!clean.isEmpty() && uniqueAreas.add(clean)) {
+                    areas.add(clean);
+                }
+                if (uniqueAreas.add(off)) {
+                    areas.add(off);
+                }
             }
         }
 
-        return Optional.of(new PincodeLookupResponse(cleanPin, state, district, primaryTaluk, offices));
+        if (areas.isEmpty() && !district.isEmpty()) {
+            areas.add(district);
+        }
+
+        return Optional.of(new PincodeLookupResponse(cleanPin, state, district, primaryTaluk, offices, areas));
     }
 
     @Override
