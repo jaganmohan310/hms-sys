@@ -15,6 +15,14 @@ public class PatientCreateRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonDeserialize(using = FlexibleLocalDateDeserializer.class)
+    @Schema(description = "Registration Date", example = "2026-10-22")
+    private LocalDate regDate;
+
+    @JsonDeserialize(using = FlexibleLocalDateDeserializer.class)
+    @Schema(description = "Registration Expiry Date", example = "2027-10-22")
+    private LocalDate regExpiryDate;
+
     @Schema(description = "Salutation / Title", example = "Mr")
     private String title = "Mr";
 
@@ -37,8 +45,11 @@ public class PatientCreateRequest implements Serializable {
     private String gender;
 
     @JsonDeserialize(using = FlexibleLocalDateDeserializer.class)
-    @Schema(description = "Date of Birth", example = "1988-06-15")
+    @Schema(description = "Date of Birth (Column 1 - Standard SQL Date)", example = "1988-06-15")
     private LocalDate dateOfBirth;
+
+    @Schema(description = "Date of Birth (Column 2 - Text string as entered in form)", example = "15/06/1988")
+    private String dobRaw;
 
     @Schema(description = "Age in years", example = "38")
     private Integer ageYears;
@@ -52,8 +63,11 @@ public class PatientCreateRequest implements Serializable {
     @Schema(description = "Blood group", example = "O+")
     private String bloodGroup;
 
-    @Schema(description = "Contact phone number", example = "+91-9876543210")
+    @Schema(description = "Contact phone number (Mobile)", example = "+91-9876543210")
     private String contactNumber;
+
+    @Schema(description = "Landline phone number", example = "08462-234567")
+    private String landline;
 
     @Schema(description = "Patient email", example = "rahul.sharma@example.com")
     private String email;
@@ -67,17 +81,38 @@ public class PatientCreateRequest implements Serializable {
     @Schema(description = "Street / Residential address", example = "A-42, Silicon Enclave")
     private String address;
 
-    @Schema(description = "City", example = "Nizamabad")
+    @Schema(description = "City / District", example = "NIZAMABAD")
     private String city;
 
-    @Schema(description = "State", example = "Telangana")
+    @Schema(description = "State", example = "TELANGANA")
     private String state;
 
-    @Schema(description = "Country", example = "India")
-    private String country = "India";
+    @Schema(description = "Country", example = "INDIA")
+    private String country = "INDIA";
 
     @Schema(description = "Zip / Postal code", example = "503001")
     private String zipCode;
+
+    @Schema(description = "Area / Taluk / Mandal", example = "NIZAMABAD NORTH")
+    private String area;
+
+    @Schema(description = "Education Level", example = "Graduate")
+    private String educationLevel;
+
+    @Schema(description = "Occupation", example = "Private Service")
+    private String occupation;
+
+    @Schema(description = "Identification Birth Mark", example = "Mole on right wrist")
+    private String birthMark;
+
+    @Schema(description = "Comments / Clinical Remarks")
+    private String comments;
+
+    @Schema(description = "Photograph file name", example = "patient_photo.jpg")
+    private String photoFileName;
+
+    @Schema(description = "Photograph base64 / data URL")
+    private String photoData;
 
     @Schema(description = "Referral Doctor", example = "Dr. Rajesh Sharma")
     private String referralDoctor;
@@ -88,10 +123,44 @@ public class PatientCreateRequest implements Serializable {
     @Schema(description = "Registration Fee", example = "100.00")
     private BigDecimal registrationFee = BigDecimal.ZERO;
 
+    @Schema(description = "Discount Type", example = "No Discount")
+    private String discountType = "No Discount";
+
+    @Schema(description = "Discount Percentage", example = "0.00")
+    private BigDecimal discountPercent = BigDecimal.ZERO;
+
+    @Schema(description = "Discount Amount", example = "0.00")
+    private BigDecimal discountAmount = BigDecimal.ZERO;
+
+    @Schema(description = "Net Amount Payable", example = "100.00")
+    private BigDecimal netAmount = BigDecimal.ZERO;
+
+    @Schema(description = "Paid Amount", example = "100.00")
+    private BigDecimal paidAmount = BigDecimal.ZERO;
+
+    @Schema(description = "Due Amount", example = "0.00")
+    private BigDecimal dueAmount = BigDecimal.ZERO;
+
     @Schema(description = "Payment Type", example = "Cash")
     private String paymentType = "Cash";
 
     public PatientCreateRequest() {
+    }
+
+    public LocalDate getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(LocalDate regDate) {
+        this.regDate = regDate;
+    }
+
+    public LocalDate getRegExpiryDate() {
+        return regExpiryDate;
+    }
+
+    public void setRegExpiryDate(LocalDate regExpiryDate) {
+        this.regExpiryDate = regExpiryDate;
     }
 
     public String getTitle() {
@@ -142,6 +211,14 @@ public class PatientCreateRequest implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public String getDobRaw() {
+        return dobRaw;
+    }
+
+    public void setDobRaw(String dobRaw) {
+        this.dobRaw = dobRaw;
+    }
+
     public Integer getAgeYears() {
         return ageYears;
     }
@@ -180,6 +257,14 @@ public class PatientCreateRequest implements Serializable {
 
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
+    }
+
+    public String getLandline() {
+        return landline;
+    }
+
+    public void setLandline(String landline) {
+        this.landline = landline;
     }
 
     public String getEmail() {
@@ -246,6 +331,62 @@ public class PatientCreateRequest implements Serializable {
         this.zipCode = zipCode;
     }
 
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getEducationLevel() {
+        return educationLevel;
+    }
+
+    public void setEducationLevel(String educationLevel) {
+        this.educationLevel = educationLevel;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public String getBirthMark() {
+        return birthMark;
+    }
+
+    public void setBirthMark(String birthMark) {
+        this.birthMark = birthMark;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public String getPhotoFileName() {
+        return photoFileName;
+    }
+
+    public void setPhotoFileName(String photoFileName) {
+        this.photoFileName = photoFileName;
+    }
+
+    public String getPhotoData() {
+        return photoData;
+    }
+
+    public void setPhotoData(String photoData) {
+        this.photoData = photoData;
+    }
+
     public String getReferralDoctor() {
         return referralDoctor;
     }
@@ -268,6 +409,54 @@ public class PatientCreateRequest implements Serializable {
 
     public void setRegistrationFee(BigDecimal registrationFee) {
         this.registrationFee = registrationFee;
+    }
+
+    public String getDiscountType() {
+        return discountType;
+    }
+
+    public void setDiscountType(String discountType) {
+        this.discountType = discountType;
+    }
+
+    public BigDecimal getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(BigDecimal discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(BigDecimal discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public BigDecimal getNetAmount() {
+        return netAmount;
+    }
+
+    public void setNetAmount(BigDecimal netAmount) {
+        this.netAmount = netAmount;
+    }
+
+    public BigDecimal getPaidAmount() {
+        return paidAmount;
+    }
+
+    public void setPaidAmount(BigDecimal paidAmount) {
+        this.paidAmount = paidAmount;
+    }
+
+    public BigDecimal getDueAmount() {
+        return dueAmount;
+    }
+
+    public void setDueAmount(BigDecimal dueAmount) {
+        this.dueAmount = dueAmount;
     }
 
     public String getPaymentType() {
