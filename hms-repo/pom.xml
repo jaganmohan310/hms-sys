@@ -22,6 +22,10 @@
             <groupId>com.pulsesquare.hms</groupId>
             <artifactId>hms-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-model</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.pulsesquare.hms</groupId>

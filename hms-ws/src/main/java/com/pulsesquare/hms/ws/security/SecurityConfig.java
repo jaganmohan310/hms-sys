@@ -52,6 +52,9 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET,
                         "/health", "/health/**", "/api/v1/health", "/api/v1/auth/status", "/api/auth/status", "/actuator/**")
                     .permitAll()
+                // Public Indian Postal Directory & Geography Lookup
+                .antMatchers(HttpMethod.GET, "/api/v1/pincodes/**", "/api/pincodes/**")
+                    .permitAll()
                 // Public Authentication Endpoints (supports both /api/v1/auth and legacy /api/auth)
                 .antMatchers(HttpMethod.POST,
                         "/api/v1/auth/login", "/api/v1/auth/signup", "/api/v1/auth/logout",
