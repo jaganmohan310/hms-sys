@@ -1,5 +1,7 @@
 package com.pulsesquare.hms.model.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.pulsesquare.hms.common.util.FlexibleLocalDateDeserializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.NotBlank;
@@ -34,6 +36,7 @@ public class PatientCreateRequest implements Serializable {
     @Schema(description = "Gender (MALE, FEMALE, OTHER)", example = "MALE", requiredMode = Schema.RequiredMode.REQUIRED)
     private String gender;
 
+    @JsonDeserialize(using = FlexibleLocalDateDeserializer.class)
     @Schema(description = "Date of Birth", example = "1988-06-15")
     private LocalDate dateOfBirth;
 
