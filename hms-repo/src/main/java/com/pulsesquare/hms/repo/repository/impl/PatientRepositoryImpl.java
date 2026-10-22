@@ -211,6 +211,17 @@ public class PatientRepositoryImpl implements PatientRepository {
         }
     }
 
+    @Override
+    public boolean deleteByMrn(String mrn) {
+        if (mrn == null || mrn.trim().isEmpty()) {
+            return false;
+        }
+        int rows = dsl.deleteFrom(HMS_PATIENTS)
+                .where(HMS_PATIENTS.MRN.equalIgnoreCase(mrn.trim()))
+                .execute();
+        return rows > 0;
+    }
+
     private Condition buildSearchCondition(String query) {
         if (query == null || query.trim().isEmpty()) {
             return DSL.noCondition();

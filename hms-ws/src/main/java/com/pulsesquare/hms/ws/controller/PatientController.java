@@ -89,6 +89,49 @@ public class PatientController {
         return ResponseEntity.ok(ApiResponse.ok("Patient records retrieved", patients));
     }
 
+    @PutMapping("/mrn/{mrn}")
+    @Operation(summary = "Update an existing patient record", description = "Updates demographics, geography, biometrics, and billing details for an existing patient identified by MRN.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Patient record updated successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Patient not found"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid payload")
+    })
+    public ResponseEntity<ApiResponse<PatientDto>> updatePatient(
+            @Parameter(description = "Medical Record Number (MRN)", required = true)
+            @PathVariable("mrn") String mrn,
+            @Valid @RequestBody PatientCreateRequest request) {
+
+        HttpServletRequest httpRequest = getCurrentHttpRequest();
+        String ipAddress = extractClientIp(httpRequest);
+        String userAgent = (httpRequest != null && httpRequest.getHeader("User-Agent") != null) ? httpRequest.getHeader("User-Agent") : "";
+
+        PatientDto updated = patientService.updatePatient(mrn, request, ipAddress, userAgent);
+        return ResponseEntity.ok(ApiResponse.ok("Patient record updated successfully", updated));
+    }
+
+    @DeleteMapping("/mrn/{mrn}")
+    @Operation(summary = "Delete patient record by MRN", description = "Removes the patient record from the master index by MRN.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Patient record deleted successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Patient not found")
+    })
+    public ResponseEntity<ApiResponse<String>> deletePatient(
+            @Parameter(description = "Medical Record Number (MRN)", required = true)
+            @PathVariable("mrn") String mrn) {
+
+        HttpServletRequest httpRequest = getCurrentHttpRequest();
+        String ipAddress = extractClientIp(httpRequest);
+        String userAgent = (httpRequest != null && httpRequest.getHeader("User-Agent") != null) ? httpRequest.getHeader("User-Agent") : "";
+
+        boolean deleted = patientService.deletePatient(mrn, ipAddress, userAgent);
+        if (deleted) {
+            return ResponseEntity.ok(ApiResponse.ok("Patient record deleted successfully", mrn));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.failure("Patient not found with MRN: " + mrn));
+        }
+    }
+
     private HttpServletRequest getCurrentHttpRequest() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return attributes != null ? attributes.getRequest() : null;

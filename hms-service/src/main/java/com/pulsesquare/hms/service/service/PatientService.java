@@ -17,4 +17,8 @@ public interface PatientService {
     List<PatientDto> searchPatients(String query, int page, int size);
 
     long countPatients(String query);
+
+    PatientDto updatePatient(String mrn, PatientCreateRequest request, String ipAddress, String userAgent);
+
+    boolean deletePatient(String mrn, String ipAddress, String userAgent);
 }

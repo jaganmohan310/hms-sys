@@ -146,6 +146,81 @@ public class PatientServiceImpl implements PatientService {
         return patientRepository.countSearch(query);
     }
 
+    @Override
+    public PatientDto updatePatient(String mrn, PatientCreateRequest request, String ipAddress, String userAgent) {
+        if (mrn == null || mrn.trim().isEmpty()) {
+            throw new BadRequestException("MRN is required for updating patient");
+        }
+        if (request == null) {
+            throw new BadRequestException("Patient update request body cannot be empty");
+        }
+
+        HmsPatients patient = patientRepository.findByMrn(mrn.trim())
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with MRN: " + mrn));
+
+        if (request.getFirstName() != null && !request.getFirstName().trim().isEmpty()) {
+            patient.setFirstName(request.getFirstName().trim());
+        }
+        if (request.getLastName() != null && !request.getLastName().trim().isEmpty()) {
+            patient.setLastName(request.getLastName().trim());
+        }
+        if (request.getTitle() != null) patient.setTitle(request.getTitle());
+        if (request.getMiddleName() != null) patient.setMiddleName(request.getMiddleName().trim());
+        if (request.getRegDate() != null) patient.setRegDate(request.getRegDate());
+        if (request.getRegExpiryDate() != null) patient.setRegExpiryDate(request.getRegExpiryDate());
+        if (request.getReligion() != null) patient.setReligion(request.getReligion());
+        if (request.getDateOfBirth() != null) patient.setDateOfBirth(request.getDateOfBirth());
+        if (request.getDobRaw() != null) patient.setDobRaw(request.getDobRaw());
+        if (request.getAgeYears() != null) patient.setAgeYears(request.getAgeYears());
+        if (request.getAgeMonths() != null) patient.setAgeMonths(request.getAgeMonths());
+        if (request.getAgeDays() != null) patient.setAgeDays(request.getAgeDays());
+        if (request.getGender() != null) patient.setGender(request.getGender().trim().toUpperCase());
+        if (request.getBloodGroup() != null) patient.setBloodGroup(request.getBloodGroup());
+        if (request.getContactNumber() != null) patient.setContactNumber(request.getContactNumber().trim());
+        if (request.getLandline() != null) patient.setLandline(request.getLandline().trim());
+        if (request.getEmail() != null) patient.setEmail(request.getEmail().trim());
+        if (request.getMaritalStatus() != null) patient.setMaritalStatus(request.getMaritalStatus());
+        if (request.getAddress() != null) patient.setAddress(request.getAddress());
+        if (request.getCity() != null) patient.setCity(request.getCity());
+        if (request.getArea() != null) patient.setArea(request.getArea());
+        if (request.getState() != null) patient.setState(request.getState());
+        if (request.getCountry() != null) patient.setCountry(request.getCountry());
+        if (request.getZipCode() != null) patient.setZipCode(request.getZipCode());
+        if (request.getEducationLevel() != null) patient.setEducationLevel(request.getEducationLevel());
+        if (request.getOccupation() != null) patient.setOccupation(request.getOccupation());
+        if (request.getBirthMark() != null) patient.setBirthMark(request.getBirthMark());
+        if (request.getComments() != null) patient.setComments(request.getComments());
+        if (request.getPhotoFileName() != null) patient.setPhotoFileName(request.getPhotoFileName());
+        if (request.getPhotoData() != null) patient.setPhotoData(request.getPhotoData());
+        if (request.getReferralDoctor() != null) patient.setReferralDoctor(request.getReferralDoctor());
+        if (request.getDepartment() != null) patient.setDepartment(request.getDepartment());
+        if (request.getRegistrationFee() != null) patient.setRegistrationFee(request.getRegistrationFee());
+        if (request.getDiscountType() != null) patient.setDiscountType(request.getDiscountType());
+        if (request.getDiscountPercent() != null) patient.setDiscountPercent(request.getDiscountPercent());
+        if (request.getDiscountAmount() != null) patient.setDiscountAmount(request.getDiscountAmount());
+        if (request.getNetAmount() != null) patient.setNetAmount(request.getNetAmount());
+        if (request.getPaidAmount() != null) patient.setPaidAmount(request.getPaidAmount());
+        if (request.getDueAmount() != null) patient.setDueAmount(request.getDueAmount());
+        if (request.getPaymentType() != null) patient.setPaymentType(request.getPaymentType());
+
+        HmsPatients updated = patientRepository.save(patient);
+        auditService.logEvent("PATIENT_UPDATED", mrn, ipAddress, userAgent, "SUCCESS",
+                "Updated patient: " + updated.getFirstName() + " " + updated.getLastName());
+        return toDto(updated);
+    }
+
+    @Override
+    public boolean deletePatient(String mrn, String ipAddress, String userAgent) {
+        if (mrn == null || mrn.trim().isEmpty()) {
+            throw new BadRequestException("MRN is required for deleting patient");
+        }
+        boolean deleted = patientRepository.deleteByMrn(mrn.trim());
+        if (deleted) {
+            auditService.logEvent("PATIENT_DELETED", mrn, ipAddress, userAgent, "SUCCESS", "Patient deleted");
+        }
+        return deleted;
+    }
+
     private PatientDto toDto(HmsPatients entity) {
         if (entity == null) return null;
 

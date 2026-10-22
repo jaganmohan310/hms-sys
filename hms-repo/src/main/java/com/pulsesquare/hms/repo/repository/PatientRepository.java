@@ -20,4 +20,6 @@ public interface PatientRepository {
     String generateNextMrn();
 
     HmsPatients save(HmsPatients patient);
+
+    boolean deleteByMrn(String mrn);
 }
