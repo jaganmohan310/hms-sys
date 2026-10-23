@@ -1,0 +1,35 @@
+get:
+  tags:
+    - Patient Administration
+  summary: Retrieve patient details by MR Number (MRN)
+  description: Lookup master patient demographics using the unique Medical Record Number across Out-Patient, Soft Lab, and In-Patient modules.
+  operationId: getPatientByMrn
+  security:
+    - BearerAuth: []
+  parameters:
+    - name: mrn
+      in: path
+      description: Medical Record Number (e.g. MRN-2026-010001 or MR-010001)
+      required: true
+      schema:
+        type: string
+        example: "MRN-2026-010001"
+  responses:
+    '200':
+      description: Patient record retrieved successfully
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiResponsePatient.yaml'
+    '404':
+      description: Patient not found for the specified MRN
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'
+    '401':
+      description: Unauthorized - missing or expired JWT token
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'

@@ -1,0 +1,26 @@
+type: object
+properties:
+  success:
+    type: boolean
+    example: true
+  message:
+    type: string
+    example: "Authentication service operational"
+  data:
+    type: object
+    properties:
+      service:
+        type: string
+        example: "PulseSquare-Enterprise-HMS-Auth"
+      version:
+        type: string
+        example: "1.0.0"
+      status:
+        type: string
+        example: "UP"
+      dbMode:
+        type: string
+        example: "H2_EMBEDDED_DB2_SIMULATION"
+  timestamp:
+    type: string
+    format: date-time

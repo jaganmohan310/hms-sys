@@ -1,0 +1,42 @@
+get:
+  tags:
+    - Consultations and Appointments
+  summary: List outpatient consultations and doctor queues
+  description: Returns scheduled consultations, active queue tokens, and consultation status for clinicians and receptionists.
+  operationId: listConsultations
+  security:
+    - BearerAuth: []
+  parameters:
+    - name: doctorId
+      in: query
+      description: Filter by assigned doctor identifier
+      required: false
+      schema:
+        type: integer
+        format: int64
+    - name: status
+      in: query
+      description: Consultation status filter (SCHEDULED, IN_PROGRESS, COMPLETED, CANCELLED)
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: List of consultations retrieved successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              totalCount:
+                type: integer
+                example: 5
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'

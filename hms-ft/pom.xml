@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.pulsesquare.hms</groupId>
+        <artifactId>pulsesquare-hms-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>hms-ft</artifactId>
+    <packaging>jar</packaging>
+
+    <name>PulseSquare HMS - Functional Testing Suite (hms-ft)</name>
+    <description>Enterprise Functional Testing (FT) &amp; End-to-End System Integration Test Suite for Healthcare Operations</description>
+
+    <dependencies>
+        <!-- Web Services & Runtime Bootstrap Module -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-ws</artifactId>
+        </dependency>
+
+        <!-- Service Layer -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-service</artifactId>
+        </dependency>
+
+        <!-- Data Access & Repository Layer -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-repo</artifactId>
+        </dependency>
+
+        <!-- Configuration Layer -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-config</artifactId>
+        </dependency>
+
+        <!-- Enterprise Models & DTOs -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-model</artifactId>
+        </dependency>
+
+        <!-- OpenAPI Specification Contract & Generated Stubs -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-oas</artifactId>
+        </dependency>
+
+        <!-- Database Distribution & Flyway Migration Scripts -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-db-dist</artifactId>
+        </dependency>
+
+        <!-- Common Exceptions & RFC 7807 Models -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-common</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Testing Framework -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <!-- Spring Security Testing Support -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+        </dependency>
+    </dependencies>
+</project>

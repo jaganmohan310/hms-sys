@@ -1,0 +1,15 @@
+post:
+  tags:
+    - Authentication and Access Control
+  summary: User Logout
+  description: Invalidates active JWT token session and revokes client tokens.
+  operationId: logoutUser
+  security:
+    - BearerAuth: []
+  responses:
+    '200':
+      description: Session successfully logged out.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiResponseVoid.yaml'

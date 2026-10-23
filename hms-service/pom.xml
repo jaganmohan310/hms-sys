@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.pulsesquare.hms</groupId>
+        <artifactId>pulsesquare-hms-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>hms-service</artifactId>
+    <packaging>jar</packaging>
+
+    <name>PulseSquare HMS - Business &amp; Service Layer (hms-service)</name>
+    <description>Enterprise Authentication, JWT Management, Password Security, Auditing, and DTO Mappings</description>
+
+    <dependencies>
+        <!-- Common & Exception Handling Module -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-common</artifactId>
+        </dependency>
+
+        <!-- Enterprise Model & DTOs -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-model</artifactId>
+        </dependency>
+
+        <!-- Repository Layer Module (jOOQ Persistence) -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-repo</artifactId>
+        </dependency>
+
+        <!-- OpenAPI Specification Contract Module -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-oas</artifactId>
+        </dependency>
+
+        <!-- Bean Validation (JSR-380) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Swagger / OpenAPI 3.0 Annotations -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
+
+        <!-- Jackson Annotations for JSON Serialization -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+
+        <!-- Spring Security Crypto for BCrypt Hashing -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+
+        <!-- JJWT (JSON Web Token Security) -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Testing Suite -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

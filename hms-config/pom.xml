@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.pulsesquare.hms</groupId>
+        <artifactId>pulsesquare-hms-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>hms-config</artifactId>
+    <packaging>jar</packaging>
+
+    <name>PulseSquare HMS - Enterprise Configuration Layer (hms-config)</name>
+    <description>Enterprise Spring, IBM Db2 HikariCP DataSource, jOOQ DSLContext, and Web/OpenAPI Configurations</description>
+
+    <dependencies>
+        <!-- Common Layer for Exceptions and Constants -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-common</artifactId>
+        </dependency>
+
+        <!-- Database Distribution & Flyway Migration Layer -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-db-dist</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Starter jOOQ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
+
+        <!-- Spring Web & MVC -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Spring JDBC & HikariCP -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!-- IBM Db2 Official JDBC JCC Driver -->
+        <dependency>
+            <groupId>com.ibm.db2</groupId>
+            <artifactId>jcc</artifactId>
+        </dependency>
+
+        <!-- SpringDoc OpenAPI UI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+        </dependency>
+
+        <!-- Testing Suite -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

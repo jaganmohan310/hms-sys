@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.pulsesquare.hms</groupId>
+        <artifactId>pulsesquare-hms-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>hms-ws</artifactId>
+    <packaging>jar</packaging>
+
+    <name>PulseSquare HMS - Web Services &amp; Application Runtime (hms-ws)</name>
+    <description>Enterprise REST API Web Services, Spring Boot Runtime Bootstrap, Swagger UI, and Web Presentation</description>
+
+    <dependencies>
+        <!-- Internal Architecture Modules -->
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-oas</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-repo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-db-dist</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pulsesquare.hms</groupId>
+            <artifactId>hms-service</artifactId>
+        </dependency>
+
+        <!-- Spring Security (Configured in hms-ws) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Web & MVC -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- SpringDoc OpenAPI 3.0 / Swagger UI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Starter jOOQ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Actuator for Production Health & Metrics -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Frontend WebJars: Official AngularJS -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>angularjs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+
+        <!-- Testing Suite -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

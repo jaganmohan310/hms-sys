@@ -1,0 +1,43 @@
+post:
+  tags:
+    - Authentication and Access Control
+  summary: Register User
+  description: |
+    Registers a new user account into the healthcare platform with predefined role-based access.
+    Enforces password complexity policies, validates email uniqueness, hashes secrets using BCrypt, 
+    and provisions default RBAC roles.
+  operationId: registerUser
+  requestBody:
+    description: User registration payload
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/SignupRequest.yaml'
+        example:
+          username: "dr_sharma"
+          password: "SecurePassword@123"
+          email: "dr.sharma@pulsesquare.com"
+          fullName: "Dr. Rahul Sharma"
+          role: "DOCTOR"
+          department: "Cardiology"
+          contactNumber: "+91-9876543210"
+  responses:
+    '201':
+      description: User registration completed successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiResponseUser.yaml'
+    '400':
+      description: Validation error or missing mandatory fields.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'
+    '409':
+      description: Conflict - username or email is already registered in the system.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'

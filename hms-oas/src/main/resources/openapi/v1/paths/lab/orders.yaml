@@ -1,0 +1,35 @@
+get:
+  tags:
+    - Diagnostic Soft Lab & Pathology
+  summary: Search pathology and clinical laboratory orders
+  description: Returns active lab orders, specimen status, and verified test results.
+  operationId: listLabOrders
+  security:
+    - BearerAuth: []
+  parameters:
+    - name: patientId
+      in: query
+      schema:
+        type: integer
+        format: int64
+    - name: status
+      in: query
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Laboratory order list retrieved successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/ApiError.yaml'

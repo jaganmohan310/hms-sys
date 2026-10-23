@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: PulseSquare Healthcare Management System (HMS) REST API
+  description: |
+    Enterprise-grade Healthcare REST API specification for Authentication, 
+    Role-Based Access Control (RBAC), and Healthcare Platform Services.
+    Designed according to OpenAPI Specification (OAS) 3.0 standards for 
+    multi-layered enterprise healthcare architecture (hms-oas, hms-service, hms-repo).
+  version: 1.0.0
+  contact:
+    name: PulseSquare Enterprise Architecture Team
+    email: architecture@pulsesquare.com
+    url: https://pulsesquare.com/hms
+  license:
+    name: Enterprise Healthcare Software License
+    url: https://pulsesquare.com/license
+
+servers:
+  - url: http://localhost:8080
+    description: Local Development / Test Instance
+  - url: https://hms.pulsesquare.com
+    description: Production Cloud Instance
+
+tags:
+  - name: Authentication and Access Control
+    description: Identity management, credential verification, JWT issuance, and RBAC
+
+# =============================================================================
+# Modular Paths Routing Table
+# =============================================================================
+paths:
+  /api/v1/auth/login:
+    $ref: './paths/auth/login.yaml'
+  /api/v1/auth/signup:
+    $ref: './paths/auth/signup.yaml'
+  /api/v1/auth/me:
+    $ref: './paths/auth/me.yaml'
+  /api/v1/auth/logout:
+    $ref: './paths/auth/logout.yaml'
+
+# =============================================================================
+# Reusable Components & Schemas Registry
+# =============================================================================
+components:
+  securitySchemes:
+    BearerAuth:
+      $ref: './components/security/BearerAuth.yaml'
+
+  schemas:
+    LoginRequest:
+      $ref: './components/schemas/LoginRequest.yaml'
+    SignupRequest:
+      $ref: './components/schemas/SignupRequest.yaml'
+    UserDto:
+      $ref: './components/schemas/UserDto.yaml'
+    AuthResponse:
+      $ref: './components/schemas/AuthResponse.yaml'
+    ApiResponseUser:
+      $ref: './components/schemas/ApiResponseUser.yaml'
+    ApiResponseVoid:
+      $ref: './components/schemas/ApiResponseVoid.yaml'
+    ApiResponseStatus:
+      $ref: './components/schemas/ApiResponseStatus.yaml'
+    ApiError:
+      $ref: './components/schemas/ApiError.yaml'
