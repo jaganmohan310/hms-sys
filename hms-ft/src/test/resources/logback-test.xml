@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Silence verbose Flyway internal scripts and jOOQ query logger/banners -->
+    <logger name="org.flywaydb" level="INFO"/>
+    <logger name="org.jooq" level="WARN"/>
+    <logger name="org.jooq.Constants" level="WARN"/>
+    <logger name="org.jooq.tools.LoggerListener" level="WARN"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

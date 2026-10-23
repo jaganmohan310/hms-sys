@@ -20,6 +20,10 @@ import javax.sql.DataSource;
 @Configuration
 public class JooqConfig {
 
+    static {
+        System.setProperty("org.jooq.no-logo", "true");
+    }
+
     @Bean
     public DSLContext dslContext(DataSource dataSource) {
         TransactionAwareDataSourceProxy proxy = new TransactionAwareDataSourceProxy(dataSource);
@@ -27,7 +31,8 @@ public class JooqConfig {
 
         Settings settings = new Settings()
                 .withRenderNameCase(RenderNameCase.UPPER)
-                .withRenderQuotedNames(RenderQuotedNames.EXPLICIT_DEFAULT_UNQUOTED);
+                .withRenderQuotedNames(RenderQuotedNames.EXPLICIT_DEFAULT_UNQUOTED)
+                .withExecuteLogging(false);
 
         DefaultConfiguration jooqConfig = new DefaultConfiguration();
         jooqConfig.set(connectionProvider);

@@ -19,6 +19,7 @@ import org.flywaydb.core.Flyway;
 import org.h2.jdbcx.JdbcDataSource;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
+import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -62,7 +63,9 @@ class RepositoryIntegrationTest {
                 .load();
         flyway.migrate();
 
-        DSLContext dsl = DSL.using(ds, SQLDialect.DEFAULT);
+        System.setProperty("org.jooq.no-logo", "true");
+        Settings settings = new Settings().withExecuteLogging(false);
+        DSLContext dsl = DSL.using(ds, SQLDialect.DEFAULT, settings);
 
         roleRepository = new RoleRepositoryImpl(dsl);
         userRepository = new UserRepositoryImpl(dsl, roleRepository);

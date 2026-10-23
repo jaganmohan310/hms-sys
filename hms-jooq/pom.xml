@@ -44,7 +44,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <logging>INFO</logging>
+                            <logging>WARN</logging>
                             <generator>
                                 <database>
                                     <name>org.jooq.meta.extensions.ddl.DDLDatabase</name>
