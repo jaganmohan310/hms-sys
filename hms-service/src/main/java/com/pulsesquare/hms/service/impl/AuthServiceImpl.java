@@ -84,26 +84,13 @@ public class AuthServiceImpl implements AuthService {
         boolean passwordValid = passwordService.matches(rawPassword, user.getPasswordHash());
 
         if (!passwordValid) {
-            int failedAttempts = (user.getFailedLoginAttempts() != null ? user.getFailedLoginAttempts() : 0) + 1;
-            user.setFailedLoginAttempts(failedAttempts);
-            if (failedAttempts >= 5) {
-                user.setAccountLocked(true);
-                logger.warn("User account locked due to excessive failed attempts: {}", user.getUsername());
-            }
-            userRepository.save(user);
+            int failedAttempts = recordFailedLoginAttempt(user);
             auditService.logEvent("LOGIN_FAILURE", identifier, ipAddress, userAgent, "FAILURE", "Invalid password attempt #" + failedAttempts);
             return AuthResponse.failure("Invalid username or password");
         }
 
-        // Reset failed login attempts on successful authentication
-        user.setFailedLoginAttempts(0);
-        user.setLastLoginAt(LocalDateTime.now());
-
-        // Transparently auto-upgrade plain-text or outdated hash to current BCrypt cost factor
-        if (!user.getPasswordHash().startsWith("$2a$") && !user.getPasswordHash().startsWith("$2b$")) {
-            user.setPasswordHash(passwordService.encode(rawPassword));
-        }
-        userRepository.save(user);
+        // Record successful login state and persist upgrades
+        recordSuccessfulLogin(user, rawPassword);
 
         Set<HmsRoles> roles = userRepository.findRolesByUserId(user.getId());
 
@@ -148,26 +135,9 @@ public class AuthServiceImpl implements AuthService {
         String normalizedRoleName = rawRole.startsWith("ROLE_") ? rawRole : "ROLE_" + rawRole;
 
         HmsRoles role = roleRepository.findByName(normalizedRoleName)
-                .orElseGet(() -> {
-                    HmsRoles newRole = new HmsRoles();
-                    newRole.setName(normalizedRoleName);
-                    newRole.setDescription("Self-registered " + rawRole);
-                    newRole.setCreatedAt(LocalDateTime.now());
-                    return roleRepository.save(newRole);
-                });
+                .orElseGet(() -> createAndSaveRole(normalizedRoleName, rawRole));
 
-        HmsUsers user = new HmsUsers();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPasswordHash(passwordService.encode(request.getPassword().trim()));
-        user.setFullName(request.getFullName().trim());
-        user.setContactNumber(request.getContactNumber());
-        user.setDepartment(request.getDepartment());
-        user.setAccountEnabled(true);
-        user.setAccountLocked(false);
-        user.setFailedLoginAttempts(0);
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
+        HmsUsers user = buildNewUserEntity(request, username, email);
 
         Set<HmsRoles> userRoles = new HashSet<>(Collections.singletonList(role));
         HmsUsers savedUser = userRepository.save(user, userRoles);
@@ -219,8 +189,128 @@ public class AuthServiceImpl implements AuthService {
         logger.info("Enterprise user logged out: {}", username);
     }
 
+    // =========================================================================
+    // HELPER METHODS: Role & User Construction (Setters Encapsulation)
+    // =========================================================================
+
+    /**
+     * Helper method to create, populate and persist a new role entity.
+     */
+    private HmsRoles createAndSaveRole(String roleName, String rawRole) {
+        HmsRoles role = buildRoleEntity(roleName, rawRole);
+        return roleRepository.save(role);
+    }
+
+    /**
+     * Helper method to instantiate and populate a role entity.
+     */
+    private HmsRoles buildRoleEntity(String roleName, String rawRole) {
+        HmsRoles role = new HmsRoles();
+        populateRoleAttributes(role, roleName, rawRole);
+        return role;
+    }
+
+    /**
+     * Encapsulates setter methods for role attributes.
+     */
+    private void populateRoleAttributes(HmsRoles role, String roleName, String rawRole) {
+        role.setName(roleName);
+        role.setDescription("Self-registered " + rawRole);
+        role.setCreatedAt(LocalDateTime.now());
+    }
+
+    /**
+     * Helper method to instantiate and populate a new user entity from signup request.
+     */
+    private HmsUsers buildNewUserEntity(SignupRequest request, String username, String email) {
+        HmsUsers user = new HmsUsers();
+        populateNewUserAttributes(user, request, username, email);
+        return user;
+    }
+
+    /**
+     * Encapsulates setter methods for new user entity attributes.
+     */
+    private void populateNewUserAttributes(HmsUsers user, SignupRequest request, String username, String email) {
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPasswordHash(passwordService.encode(request.getPassword().trim()));
+        user.setFullName(request.getFullName().trim());
+        user.setContactNumber(request.getContactNumber());
+        user.setDepartment(request.getDepartment());
+        user.setAccountEnabled(true);
+        user.setAccountLocked(false);
+        user.setFailedLoginAttempts(0);
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+    }
+
+    // =========================================================================
+    // HELPER METHODS: Login State Management (Setters Encapsulation)
+    // =========================================================================
+
+    /**
+     * Helper method to increment failed attempts, lock account if threshold exceeded, and persist.
+     */
+    private int recordFailedLoginAttempt(HmsUsers user) {
+        int failedAttempts = (user.getFailedLoginAttempts() != null ? user.getFailedLoginAttempts() : 0) + 1;
+        updateFailedLoginAttributes(user, failedAttempts);
+        userRepository.save(user);
+        return failedAttempts;
+    }
+
+    /**
+     * Encapsulates setter methods for failed login state.
+     */
+    private void updateFailedLoginAttributes(HmsUsers user, int failedAttempts) {
+        user.setFailedLoginAttempts(failedAttempts);
+        if (failedAttempts >= 5) {
+            user.setAccountLocked(true);
+            logger.warn("User account locked due to excessive failed attempts: {}", user.getUsername());
+        }
+    }
+
+    /**
+     * Helper method to reset failed attempts, update login timestamp, upgrade password hash if needed, and persist.
+     */
+    private void recordSuccessfulLogin(HmsUsers user, String rawPassword) {
+        applyLoginSuccessAttributes(user, rawPassword);
+        userRepository.save(user);
+    }
+
+    /**
+     * Encapsulates setter methods for successful authentication state.
+     */
+    private void applyLoginSuccessAttributes(HmsUsers user, String rawPassword) {
+        user.setFailedLoginAttempts(0);
+        user.setLastLoginAt(LocalDateTime.now());
+        if (shouldUpgradePasswordHash(user.getPasswordHash())) {
+            user.setPasswordHash(passwordService.encode(rawPassword));
+        }
+    }
+
+    private boolean shouldUpgradePasswordHash(String hash) {
+        return hash != null && !hash.startsWith("$2a$") && !hash.startsWith("$2b$");
+    }
+
+    // =========================================================================
+    // HELPER METHODS: User DTO Mapping (Setters Encapsulation)
+    // =========================================================================
+
+    /**
+     * Helper method mapping HmsUsers and HmsRoles entities to UserDto.
+     */
     private UserDto mapToUserDto(HmsUsers user, Set<HmsRoles> roles) {
         UserDto dto = new UserDto();
+        populateUserBasicInfo(dto, user);
+        populateUserRolesInfo(dto, roles);
+        return dto;
+    }
+
+    /**
+     * Encapsulates setter methods for user profile data on DTO.
+     */
+    private void populateUserBasicInfo(UserDto dto, HmsUsers user) {
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
@@ -229,7 +319,12 @@ public class AuthServiceImpl implements AuthService {
         dto.setContactNumber(user.getContactNumber());
         dto.setAccountEnabled(Boolean.TRUE.equals(user.getAccountEnabled()));
         dto.setCreatedAt(user.getCreatedAt());
+    }
 
+    /**
+     * Encapsulates setter methods for role information on DTO.
+     */
+    private void populateUserRolesInfo(UserDto dto, Set<HmsRoles> roles) {
         Set<String> roleNames = roles != null ? roles.stream()
                 .map(HmsRoles::getName)
                 .collect(Collectors.toSet()) : Collections.emptySet();
@@ -237,7 +332,5 @@ public class AuthServiceImpl implements AuthService {
 
         String primaryRole = roleNames.stream().findFirst().orElse("ROLE_PATIENT").replace("ROLE_", "");
         dto.setRole(primaryRole);
-
-        return dto;
     }
 }
